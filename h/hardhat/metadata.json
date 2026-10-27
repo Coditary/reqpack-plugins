@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "hardhat",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for isolated Hardhat CLI installs",
+  "description": "ReqPack Lua wrapper plugin for isolated Hardhat CLI runtime installs with ReqPack-scoped cache, metadata, and version records",
+  "license": "MIT"
+}

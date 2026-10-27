@@ -1,0 +1,43 @@
+return {
+  name = "xbps full system update when package list empty",
+  request = {
+    action = "update",
+    system = "xbps",
+  },
+  fakeExec = {
+    { match = "command -v xbps-install >/dev/null 2>&1", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "command -v xbps-remove >/dev/null 2>&1", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "command -v xbps-query >/dev/null 2>&1", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "command -v xbps-rindex >/dev/null 2>&1", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "xbps-install -S -u -y -c /home/Leodoras/.cache/reqpack/xbps/cache", exitCode = 0, stdout = "hello-2.13_1: updated successfully.\n", stderr = "", success = true },
+    { match = "xbps-install -M -u -n -c /home/Leodoras/.cache/reqpack/xbps/cache", exitCode = 0, stdout = "hello-2.13_1 update\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=pkgver hello", exitCode = 0, stdout = "hello-2.12_1\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=short_desc hello", exitCode = 0, stdout = "GNU Hello\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=homepage hello", exitCode = 0, stdout = "https://www.gnu.org/software/hello/\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=license hello", exitCode = 0, stdout = "GPL-3.0-or-later\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=repository hello", exitCode = 0, stdout = "https://repo-default.voidlinux.org/current\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=architecture hello", exitCode = 0, stdout = "x86_64\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -x hello", exitCode = 0, stdout = "glibc>=0\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=categories hello", exitCode = 0, stdout = "base-system\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=state hello", exitCode = 0, stdout = "installed\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=automatic-install hello", exitCode = 0, stdout = "no\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=hold hello", exitCode = 0, stdout = "no\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache --property=repolock hello", exitCode = 0, stdout = "no\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=pkgver hello", exitCode = 0, stdout = "hello-2.13_1\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=short_desc hello", exitCode = 0, stdout = "GNU Hello\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=homepage hello", exitCode = 0, stdout = "https://www.gnu.org/software/hello/\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=license hello", exitCode = 0, stdout = "GPL-3.0-or-later\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=repository hello", exitCode = 0, stdout = "https://repo-default.voidlinux.org/current\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=architecture hello", exitCode = 0, stdout = "x86_64\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R -x hello", exitCode = 0, stdout = "glibc>=0\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=categories hello", exitCode = 0, stdout = "base-system\n", stderr = "", success = true },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=state hello", exitCode = 1, stdout = "", stderr = "", success = false },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=automatic-install hello", exitCode = 1, stdout = "", stderr = "", success = false },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=hold hello", exitCode = 1, stdout = "", stderr = "", success = false },
+    { match = "xbps-query -c /home/Leodoras/.cache/reqpack/xbps/cache -R --property=repolock hello", exitCode = 1, stdout = "", stderr = "", success = false }
+  },
+  expect = {
+    success = true,
+    events = { "outdated", "updated", "success" },
+  }
+}

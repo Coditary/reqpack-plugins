@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "smackage",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for smackage",
+  "description": "Thin ReqPack wrapper bundle for Standard ML packages managed by smackage in SMACKAGE_HOME",
+  "license": "MIT"
+}

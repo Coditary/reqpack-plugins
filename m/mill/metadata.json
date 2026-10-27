@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "mill",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Mill launcher versions",
+  "description": "ReqPack Lua wrapper plugin for versioned Mill launcher installs with ReqPack-scoped shared state and cache roots",
+  "license": "MIT"
+}

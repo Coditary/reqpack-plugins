@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "paket",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Paket via dotnet tool",
+  "description": "Thin ReqPack Lua wrapper around Paket for shared-workspace package install and query workflows.",
+  "license": "MIT"
+}

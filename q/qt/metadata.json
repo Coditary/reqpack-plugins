@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "qt",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Qt components via Qt Installer Framework CLI",
+  "description": "ReqPack Lua wrapper plugin for Qt package and alias components via Qt Online Installer and Qt Maintenance Tool",
+  "license": "MIT"
+}

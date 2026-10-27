@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "raco",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Racket raco pkg",
+  "description": "ReqPack Lua wrapper plugin for Racket package management via the raco pkg CLI",
+  "license": "MIT"
+}

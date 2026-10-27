@@ -1,0 +1,80 @@
+return {
+  name = "clasp search scripts",
+  request = {
+    action = "search",
+    system = "clasp",
+    prompt = "hello",
+  },
+  fakeExec = {
+    {
+      match = "test -f './.clasp.json'",
+      exitCode = 1,
+      stdout = "",
+      stderr = "",
+      success = false,
+    },
+    {
+      match = "command -v 'clasp' >/dev/null 2>&1",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "command -v 'clasp' >/dev/null 2>&1",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "clasp show-authorized-user --json",
+      exitCode = 0,
+      stdout = [[{"loggedIn":true,"email":"dev@example.com"}]],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "clasp list-scripts --json",
+      exitCode = 0,
+      stdout = [=[[{"id":"AKfycbx1234567890","name":"Hello World"},{"id":"AKfycbx999","name":"Ops Tool"}]]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "clasp list-deployments AKfycbx1234567890 --json",
+      exitCode = 0,
+      stdout = [=[[{"deploymentId":"dep-1","versionNumber":7,"description":"prod"}]]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "clasp list-versions AKfycbx1234567890 --json",
+      exitCode = 0,
+      stdout = [=[[{"versionNumber":7,"description":"release"}]]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "clasp list-deployments AKfycbx999 --json",
+      exitCode = 0,
+      stdout = "[]",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "clasp list-versions AKfycbx999 --json",
+      exitCode = 0,
+      stdout = "[]",
+      stderr = "",
+      success = true,
+    },
+  },
+  expect = {
+    success = true,
+    events = { "searched" },
+    resultCount = 1,
+    resultName = "Hello World",
+    resultVersion = "7",
+  }
+}

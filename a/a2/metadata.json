@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "a2",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for A2 Oberon distribution profiles",
+  "description": "ReqPack Lua wrapper plugin for A2 Oberon repository profiles and managed local installs",
+  "license": "MIT"
+}

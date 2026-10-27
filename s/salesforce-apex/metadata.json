@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "salesforce-apex",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Salesforce Apex package installs",
+  "description": "ReqPack Lua wrapper plugin for Salesforce CLI package install, uninstall, list, info, search, and outdated workflows for Apex packages",
+  "license": "MIT"
+}

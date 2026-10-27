@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "leiningen",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Leiningen local artifacts and search",
+  "description": "Thin ReqPack wrapper bundle for Leiningen search and local Maven repository artifact management",
+  "license": "MIT"
+}

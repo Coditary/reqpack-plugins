@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "xbps",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for XBPS",
+  "description": "ReqPack Lua wrapper plugin for Void Linux XBPS packages via xbps-install, xbps-remove, xbps-query, and xbps-rindex",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "meson",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Meson WrapDB subprojects",
+  "description": "ReqPack Lua wrapper plugin for Meson wrap and WrapDB subproject management with shared ReqPack-scoped workspace and package cache roots",
+  "license": "MIT"
+}

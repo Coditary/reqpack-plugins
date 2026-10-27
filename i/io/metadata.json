@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "io",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Io via Eerie",
+  "description": "ReqPack Lua wrapper plugin for Io package management through the Eerie CLI with shared ReqPack-owned state roots",
+  "license": "MIT"
+}

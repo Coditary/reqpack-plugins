@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "ctan",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for CTAN via tlmgr",
+  "description": "ReqPack Lua wrapper plugin for TeX Live tlmgr in user mode against CTAN-compatible repositories using a plugin-owned texmf tree.",
+  "license": "MIT"
+}

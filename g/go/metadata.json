@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "go",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Go tools and module cache warming",
+  "description": "ReqPack Lua wrapper plugin for Go using shared plugin-owned caches to install command packages and warm module downloads.",
+  "license": "MIT"
+}

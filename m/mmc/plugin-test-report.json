@@ -1,0 +1,96 @@
+{
+  "plugin": "mmc",
+  "pluginPath": "/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/mmc/run.lua",
+  "passed": 8,
+  "failed": 0,
+  "cases": [
+    {
+      "name": "mmc info tracked library",
+      "success": true,
+      "message": "",
+      "commands": ["cat '${fixtureRoot}/cache/tracked.json'", "find '${fixtureRoot}/cache/install-prefix/lib/mercury' \\( -name 'libfoo.*' -o -name 'foo*' \\) -print -quit"],
+      "stdout": ["{\n  \"tracked\": {\n    \"foo\": {\n      \"name\": \"foo\",\n      \"sourcePath\": \"${fixtureRoot}/src/foo\",\n      \"installTarget\": \"libfoo.install\",\n      \"mainModule\": \"foo\",\n      \"version\": \"1.0.0\"\n    }\n  }\n}\n", "${fixtureRoot}/cache/install-prefix/lib/mercury/lib/libfoo.a\n"],
+      "stderr": [],
+      "events": ["informed"],
+      "artifacts": [],
+      "eventRecords": [{"name":"informed","payload":"{dependencies=<lua-value>, description=Tracked Mercury library installed through mmc --make, extraFields=<lua-value>, installed=true, latestVersion=1.0.0, name=foo, packageId=foo, packageType=mercury-library, status=tracked, summary=Mercury library tracked in ReqPack cache, version=1.0.0}"}]
+    },
+    {
+      "name": "mmc installLocal tracked library",
+      "success": true,
+      "message": "",
+      "commands": ["command -v 'mmc' >/dev/null 2>&1", "cat '${fixtureRoot}/cache/tracked.json'", "cd '${fixtureRoot}/src/bar' && mmc --make --install-prefix '${fixtureRoot}/cache/install-prefix' 'libbar.install'", "find '${fixtureRoot}/cache/install-prefix/lib/mercury' \\( -name 'libbar.*' -o -name 'bar*' \\) -print -quit"],
+      "stdout": ["installed\n"],
+      "stderr": ["no fakeExec rule matched command: cat '${fixtureRoot}/cache/tracked.json'"],
+      "events": ["installed", "success"],
+      "artifacts": [],
+      "eventRecords": [{"name":"installed","payload":"{1=<lua-value>}"}, {"name":"success","payload":"ok"}]
+    },
+    {
+      "name": "mmc install tracked local library",
+      "success": true,
+      "message": "",
+      "commands": ["command -v 'mmc' >/dev/null 2>&1", "cat '${fixtureRoot}/cache/tracked.json'", "cd '${fixtureRoot}/src/foo' && mmc --make --install-prefix '${fixtureRoot}/cache/install-prefix' 'libfoo.install'", "find '${fixtureRoot}/cache/install-prefix/lib/mercury' \\( -name 'libfoo.*' -o -name 'foo*' \\) -print -quit"],
+      "stdout": ["installed\n"],
+      "stderr": ["no fakeExec rule matched command: cat '${fixtureRoot}/cache/tracked.json'"],
+      "events": ["installed", "success"],
+      "artifacts": [],
+      "eventRecords": [{"name":"installed","payload":"{1=<lua-value>}"}, {"name":"success","payload":"ok"}]
+    },
+    {
+      "name": "mmc list tracked libraries",
+      "success": true,
+      "message": "",
+      "commands": ["cat '${fixtureRoot}/cache/tracked.json'", "find '${fixtureRoot}/cache/install-prefix/lib/mercury' \\( -name 'libfoo.*' -o -name 'foo*' \\) -print -quit"],
+      "stdout": ["{\n  \"tracked\": {\n    \"foo\": {\n      \"name\": \"foo\",\n      \"sourcePath\": \"${fixtureRoot}/src/foo\",\n      \"installTarget\": \"libfoo.install\",\n      \"mainModule\": \"foo\",\n      \"version\": \"1.2.3\"\n    }\n  }\n}\n", "${fixtureRoot}/cache/install-prefix/lib/mercury/lib/libfoo.a\n"],
+      "stderr": [],
+      "events": ["listed"],
+      "artifacts": [],
+      "eventRecords": [{"name":"listed","payload":"{1=<lua-value>}"}]
+    },
+    {
+      "name": "mmc outdated unsupported",
+      "success": true,
+      "message": "",
+      "commands": [],
+      "stdout": [],
+      "stderr": [],
+      "events": ["outdated"],
+      "artifacts": [],
+      "eventRecords": [{"name":"outdated","payload":"{}"}]
+    },
+    {
+      "name": "mmc remove tracked library",
+      "success": true,
+      "message": "",
+      "commands": ["cat '${fixtureRoot}/cache/tracked.json'"],
+      "stdout": [],
+      "stderr": ["no fakeExec rule matched command: cat '${fixtureRoot}/cache/tracked.json'"],
+      "events": ["deleted", "success"],
+      "artifacts": [],
+      "eventRecords": [{"name":"deleted","payload":"{}"}, {"name":"success","payload":"ok"}]
+    },
+    {
+      "name": "mmc search tracked libraries locally",
+      "success": true,
+      "message": "",
+      "commands": ["cat '${fixtureRoot}/cache/tracked.json'", "find '${fixtureRoot}/cache/install-prefix/lib/mercury' \\( -name 'libbar.*' -o -name 'bar*' \\) -print -quit", "find '${fixtureRoot}/cache/install-prefix/lib/mercury' \\( -name 'libfoo.*' -o -name 'foo*' \\) -print -quit"],
+      "stdout": ["{\n  \"tracked\": {\n    \"foo\": {\n      \"name\": \"foo\",\n      \"sourcePath\": \"${fixtureRoot}/src/foo\",\n      \"installTarget\": \"libfoo.install\",\n      \"mainModule\": \"foo\",\n      \"version\": \"\"\n    },\n    \"bar\": {\n      \"name\": \"bar\",\n      \"sourcePath\": \"${fixtureRoot}/src/bar\",\n      \"installTarget\": \"libbar.install\",\n      \"mainModule\": \"bar\",\n      \"version\": \"\"\n    }\n  }\n}\n", "${fixtureRoot}/cache/install-prefix/lib/mercury/lib/libfoo.a\n"],
+      "stderr": [],
+      "events": ["searched"],
+      "artifacts": [],
+      "eventRecords": [{"name":"searched","payload":"{1=<lua-value>}"}]
+    },
+    {
+      "name": "mmc update tracked library",
+      "success": true,
+      "message": "",
+      "commands": ["command -v 'mmc' >/dev/null 2>&1", "cat '${fixtureRoot}/cache/tracked.json'"],
+      "stdout": [],
+      "stderr": ["no fakeExec rule matched command: cat '${fixtureRoot}/cache/tracked.json'"],
+      "events": ["updated", "success"],
+      "artifacts": [],
+      "eventRecords": [{"name":"updated","payload":"{}"}, {"name":"success","payload":"ok"}]
+    }
+  ]
+}

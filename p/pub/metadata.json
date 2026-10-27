@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "pub",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Dart pub global packages",
+  "description": "ReqPack Lua wrapper plugin for Dart pub global package activation with shared PUB_CACHE and pub.dev metadata lookups",
+  "license": "MIT"
+}

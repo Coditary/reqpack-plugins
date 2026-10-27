@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "eupm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for eupm",
+  "description": "ReqPack Lua wrapper plugin for Euphoria packages through the eupm command line",
+  "license": "MIT"
+}

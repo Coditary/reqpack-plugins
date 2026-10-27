@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "inform7",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Inform 7 extensions via inbuild",
+  "description": "Thin ReqPack Lua wrapper around Inform's inbuild tool for installing, listing, searching, and removing Inform 7 extensions from a ReqPack-managed external nest.",
+  "license": "MIT"
+}

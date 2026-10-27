@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "miktex",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for MiKTeX",
+  "description": "ReqPack Lua wrapper plugin for MiKTeX TeX package management via the miktex CLI",
+  "license": "MIT"
+}

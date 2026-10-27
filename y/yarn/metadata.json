@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "yarn",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Yarn Classic global npm packages",
+  "description": "Thin ReqPack Lua plugin for Yarn Classic global npm package management and npm registry metadata",
+  "license": "MIT"
+}

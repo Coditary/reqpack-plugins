@@ -1,0 +1,105 @@
+return {
+  name = "mill search remote versions",
+  request = {
+    action = "search",
+    system = "mill",
+    flags = {
+      "data-root=${fixtureRoot}/.reqpack-data",
+      "cache-root=${fixtureRoot}/.reqpack-cache",
+      "config-root=${fixtureRoot}/.reqpack-config",
+    },
+    prompt = "1.0",
+  },
+  fakeExec = {
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/mill/bin'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/mill/records'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/downloads'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/user-cache'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/coursier'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/coursier-jvm'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/mill/home'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/xdg-cache'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-config/mill/xdg-config'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/mill/xdg-data'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://repo1.maven.org/maven2/com/lihaoyi/mill-dist/maven-metadata.xml' -o '${fixtureRoot}/.reqpack-cache/mill/maven-metadata.xml'",
+      exitCode = 0,
+      stdout = "<metadata><versioning><latest>1.0.4</latest><release>1.0.4</release><versions><version>0.12.11</version><version>1.0.4</version></versions></versioning></metadata>",
+      stderr = "",
+      success = true,
+    },
+  },
+  fixtureFiles = {
+    {
+      path = "${fixtureRoot}/.reqpack-cache/mill/maven-metadata.xml",
+      content = "<metadata><versioning><latest>1.0.4</latest><release>1.0.4</release><versions><version>0.12.11</version><version>1.0.4</version></versions></versioning></metadata>",
+    },
+  },
+  expect = {
+    success = true,
+    events = { "searched" },
+    resultCount = 1,
+    resultName = "mill",
+    resultVersion = "1.0.4",
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "vim-plug",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for vim-plug-managed Vim and Neovim plugins",
+  "description": "ReqPack Lua wrapper plugin for vim-plug that manages editor plugin declarations, shared clone cache, and headless install or update workflows inside ReqPack-owned roots",
+  "license": "MIT"
+}

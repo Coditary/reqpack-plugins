@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "snow",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Snow",
+  "description": "Thin ReqPack wrapper bundle for Scheme packages managed by Snow or snow-chibi",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "wasm-bindgen",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for wasm-bindgen-cli and local Wasm binding generation",
+  "description": "ReqPack Lua wrapper plugin for installing wasm-bindgen-cli via Cargo and generating cached JavaScript and TypeScript bindings from local WebAssembly modules",
+  "license": "MIT"
+}

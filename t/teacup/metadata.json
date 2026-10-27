@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "teacup",
+  "version": "0.1.0",
+  "summary": "ReqPack Lua wrapper plugin for Teacup Tcl package management",
+  "description": "ReqPack Lua wrapper plugin for Teacup package, profile, and application management via Teacup CLI commands",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "rebar3",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for rebar3 Erlang dependencies",
+  "description": "Thin ReqPack wrapper bundle for managing Erlang project dependencies through the rebar3 CLI",
+  "license": "MIT"
+}

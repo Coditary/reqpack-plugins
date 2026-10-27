@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "microdnf",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for microdnf",
+  "description": "Thin ReqPack Lua plugin for the microdnf package manager",
+  "license": "MIT"
+}

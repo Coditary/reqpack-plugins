@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "shards",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Crystal shards projects",
+  "description": "ReqPack Lua wrapper plugin for Crystal shards project dependencies via shard.yml editing, shards CLI operations, and shared query cache",
+  "license": "MIT"
+}

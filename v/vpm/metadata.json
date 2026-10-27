@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "vpm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for VPM",
+  "description": "ReqPack Lua wrapper plugin for V language package management through the V CLI and shared VMODULES roots",
+  "license": "MIT"
+}

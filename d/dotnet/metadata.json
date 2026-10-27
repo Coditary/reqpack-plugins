@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "dotnet",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for dotnet Q# tools, templates, and packages",
+  "description": "Thin ReqPack Lua wrapper around dotnet workflows used for Q# tooling, template packages, and NuGet package references.",
+  "license": "MIT"
+}

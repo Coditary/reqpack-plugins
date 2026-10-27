@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "mcpm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for MCPM MCP servers",
+  "description": "ReqPack Lua wrapper plugin for mcpm-managed Model Context Protocol servers with shared ReqPack-scoped config, cache, and data roots",
+  "license": "MIT"
+}

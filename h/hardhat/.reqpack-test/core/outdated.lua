@@ -1,0 +1,128 @@
+return {
+  name = "hardhat outdated installed runtimes",
+  request = {
+    action = "outdated",
+    system = "hardhat",
+    flags = {
+      "data-root=${fixtureRoot}/.reqpack-data",
+      "cache-root=${fixtureRoot}/.reqpack-cache",
+      "config-root=${fixtureRoot}/.reqpack-config",
+    },
+  },
+  fixtureDirs = {
+    "${fixtureRoot}/.reqpack-data/hardhat/records",
+  },
+  fixtureFiles = {
+    {
+      path = "${fixtureRoot}/.reqpack-data/hardhat/records/hardhat_3_6_0.tsv",
+      content = "id\thardhat@3.6.0\nname\thardhat\nversion\t3.6.0\ninstallPath\t${fixtureRoot}/.reqpack-data/hardhat/installs/3.6.0\nlauncherPath\t${fixtureRoot}/.reqpack-data/hardhat/bin/hardhat-3.6.0\nrecordPath\t${fixtureRoot}/.reqpack-data/hardhat/records/hardhat_3_6_0.tsv\ncacheRoot\t${fixtureRoot}/.reqpack-cache/hardhat\nnpmCacheDir\t${fixtureRoot}/.reqpack-cache/hardhat/npm-cache\nhomepage\thttps://hardhat.org\nsourceUrl\thttps://github.com/NomicFoundation/hardhat\nsummary\tEthereum development environment\ndescription\tEthereum development environment\nsourceKind\tregistry\nupdatedAt\t0\n",
+    },
+  },
+  fakeExec = {
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/hardhat/installs'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/hardhat/bin'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/hardhat/records'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/hardhat/home'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/hardhat/registry'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/hardhat/tarballs'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/hardhat/npm-cache'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/hardhat/staging'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/hardhat/xdg-cache'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-config/hardhat/xdg-config'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/hardhat/xdg-data'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://registry.npmjs.org/hardhat' -o '${fixtureRoot}/.reqpack-cache/hardhat/registry/hardhat.json'",
+      exitCode = 0,
+      stdout = [[{"dist-tags":{"latest":"3.7.0"},"versions":{"3.7.0":{"version":"3.7.0","description":"Ethereum development environment","homepage":"https://hardhat.org","repository":{"url":"https://github.com/NomicFoundation/hardhat"},"dist":{"tarball":"https://registry.npmjs.org/hardhat/-/hardhat-3.7.0.tgz"}}}}]],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "ls -1A '${fixtureRoot}/.reqpack-data/hardhat/records'",
+      exitCode = 0,
+      stdout = "hardhat_3_6_0.tsv\n",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat '${fixtureRoot}/.reqpack-data/hardhat/records/hardhat_3_6_0.tsv'",
+      exitCode = 0,
+      stdout = "id\thardhat@3.6.0\nname\thardhat\nversion\t3.6.0\ninstallPath\t${fixtureRoot}/.reqpack-data/hardhat/installs/3.6.0\nlauncherPath\t${fixtureRoot}/.reqpack-data/hardhat/bin/hardhat-3.6.0\nrecordPath\t${fixtureRoot}/.reqpack-data/hardhat/records/hardhat_3_6_0.tsv\ncacheRoot\t${fixtureRoot}/.reqpack-cache/hardhat\nnpmCacheDir\t${fixtureRoot}/.reqpack-cache/hardhat/npm-cache\nhomepage\thttps://hardhat.org\nsourceUrl\thttps://github.com/NomicFoundation/hardhat\nsummary\tEthereum development environment\ndescription\tEthereum development environment\nsourceKind\tregistry\nupdatedAt\t0\n",
+      stderr = "",
+      success = true,
+    },
+  },
+  expect = {
+    success = true,
+    events = { "outdated" },
+    resultCount = 1,
+    resultName = "hardhat",
+    resultVersion = "3.6.0",
+  }
+}

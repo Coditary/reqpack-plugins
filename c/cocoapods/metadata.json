@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "cocoapods",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for CocoaPods",
+  "description": "ReqPack Lua wrapper plugin for CocoaPods project dependencies, lockfiles, and spec metadata.",
+  "license": "MIT"
+}

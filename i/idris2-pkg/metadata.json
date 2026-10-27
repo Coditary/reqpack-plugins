@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "idris2-pkg",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Idris2 Pack",
+  "description": "Thin ReqPack wrapper bundle for Idris libraries via the pack CLI from stefan-hoeck/idris2-pack",
+  "license": "MIT"
+}

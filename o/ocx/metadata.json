@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "ocx",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for OCX OpenCode component manager",
+  "description": "ReqPack Lua wrapper plugin for OCX to add, remove, update, search, and inspect OpenCode components via the official ocx CLI",
+  "license": "MIT"
+}

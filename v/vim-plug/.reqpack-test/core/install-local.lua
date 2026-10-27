@@ -1,0 +1,42 @@
+return {
+  name = "vim-plug install local plugin directory",
+  request = {
+    action = "install",
+    system = "vim-plug",
+    localPath = "${fixtureRoot}/local/my-plugin",
+    flags = {
+      "data-root=${fixtureRoot}/.reqpack-data",
+      "cache-root=${fixtureRoot}/.reqpack-cache",
+      "config-root=${fixtureRoot}/.reqpack-config",
+    },
+  },
+  fixtureDirs = {
+    ".reqpack-data/vim-plug",
+    ".reqpack-cache/vim-plug",
+    ".reqpack-config/vim-plug",
+    "${fixtureRoot}/local/my-plugin",
+  },
+  fakeExec = {
+    { match = "mkdir -p '${fixtureRoot}/.reqpack-data/vim-plug' '${fixtureRoot}/.reqpack-cache/vim-plug' '${fixtureRoot}/.reqpack-config/vim-plug' '${fixtureRoot}/.reqpack-data/vim-plug/autoload' '${fixtureRoot}/.reqpack-data/vim-plug/plugged' '${fixtureRoot}/.reqpack-cache/vim-plug/tmp'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "command -v 'git' >/dev/null 2>&1", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "test -d '${fixtureRoot}/local/my-plugin'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "cat '${fixtureRoot}/.reqpack-data/vim-plug/manifest.tsv'", exitCode = 1, stdout = "", stderr = "missing", success = false },
+    { match = "mkdir -p '${fixtureRoot}/.reqpack-data/vim-plug'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "printf %s '${fixtureRoot}/local/my-plugin\tmy-plugin\tlocal\t${fixtureRoot}/local/my-plugin\t\t\t\t\t\t\t\t\t\t\n' > '${fixtureRoot}/.reqpack-data/vim-plug/manifest.tsv'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '${fixtureRoot}/.reqpack-config/vim-plug'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "printf %s 'set nocompatible\nset shortmess+=I\nfiletype off\nlet g:plug_window = ''enew''\nlet g:plug_pwindow = ''enew''\nexecute ''set rtp^='' . fnameescape(''${fixtureRoot}/.reqpack-data/vim-plug'')\ncall plug#begin(''${fixtureRoot}/.reqpack-data/vim-plug/plugged'')\nPlug ''${fixtureRoot}/local/my-plugin'', { ''as'': ''my-plugin'' }\ncall plug#end()\nfiletype plugin indent on\n' > '${fixtureRoot}/.reqpack-config/vim-plug/reqpack.vim'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "test -f '${fixtureRoot}/.reqpack-data/vim-plug/autoload/plug.vim'", exitCode = 1, stdout = "", stderr = "", success = false },
+    { match = "command -v 'curl' >/dev/null 2>&1", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '${fixtureRoot}/.reqpack-data/vim-plug/autoload' && curl -fsSL 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' -o '${fixtureRoot}/.reqpack-data/vim-plug/autoload/plug.vim'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "command -v 'nvim' >/dev/null 2>&1", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "nvim --headless -u '${fixtureRoot}/.reqpack-config/vim-plug/reqpack.vim' -i NONE -c 'PlugInstall --sync my-plugin' -c 'qa'", exitCode = 0, stdout = "Registered.\n", stderr = "", success = true },
+    { match = "cat '${fixtureRoot}/.reqpack-data/vim-plug/state.tsv'", exitCode = 1, stdout = "", stderr = "missing", success = false },
+    { match = "git -C '${fixtureRoot}/local/my-plugin' rev-parse HEAD", exitCode = 0, stdout = "2222222222222222222222222222222222222222\n", stderr = "", success = true },
+    { match = "printf %s '${fixtureRoot}/local/my-plugin\tmy-plugin\tlocal\t${fixtureRoot}/local/my-plugin\t\t2222222222222222222222222222222222222222\t\t\t\t\tinstalled\n' > '${fixtureRoot}/.reqpack-data/vim-plug/state.tsv'", exitCode = 0, stdout = "", stderr = "", success = true },
+  },
+  expect = {
+    success = true,
+    result = true,
+    events = { "installed", "success" },
+  },
+}

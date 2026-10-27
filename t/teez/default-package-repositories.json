@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "repositories": [
+    {
+      "id": "teez-default",
+      "url": "https://raw.githubusercontent.com/Coditary/teez-registry/main/packages.json",
+      "priority": 0,
+      "enabled": true
+    }
+  ]
+}

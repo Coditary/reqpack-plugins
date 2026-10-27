@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "fan",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Fantom pod management via fanr",
+  "description": "Thin ReqPack Lua wrapper plugin for Fantom pods using the upstream fanr repository manager and shared Fantom environment",
+  "license": "MIT"
+}

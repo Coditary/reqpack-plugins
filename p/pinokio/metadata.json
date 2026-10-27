@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "pinokio",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Pinokio app installs and script repo management",
+  "description": "ReqPack Lua wrapper plugin for Pinokio desktop app installs and script repository management under Pinokio home",
+  "license": "MIT"
+}

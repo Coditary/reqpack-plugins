@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "boss",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Boss",
+  "description": "ReqPack Lua wrapper plugin for Boss Delphi/Lazarus dependencies and cache-aware project queries",
+  "license": "MIT"
+}

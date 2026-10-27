@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "x10build",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for X10 upstream builds",
+  "description": "ReqPack Lua wrapper plugin for installing and managing the X10 toolchain from upstream releases or local source trees",
+  "license": "MIT"
+}

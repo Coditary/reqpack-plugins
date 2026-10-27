@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "texlive",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for native TeX Live via tlmgr",
+  "description": "ReqPack Lua wrapper plugin for managing packages in an existing TeX Live installation via tlmgr.",
+  "license": "MIT"
+}

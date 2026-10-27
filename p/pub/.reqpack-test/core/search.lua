@@ -1,0 +1,66 @@
+return {
+  name = "pub search packages via completion cache",
+  request = {
+    action = "search",
+    system = "pub",
+    prompt = "mel",
+  },
+  fakeExec = {
+    {
+      match = "curl -fsSL 'https://pub.dev/api/package-name-completion-data'",
+      exitCode = 0,
+      stdout = [=[{"packages":["melos","melo_cli","riverpod"]}]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://pub.dev/api/packages/melos'",
+      exitCode = 0,
+      stdout = [=[{"name":"melos","latest":{"version":"6.3.3","pubspec":{"name":"melos","description":"Workspace management for Dart and Flutter projects.","homepage":"https://melos.invertase.dev","repository":"https://github.com/invertase/melos","license":"MIT","executables":{"melos":"melos"}}}}]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://pub.dev/api/packages/melos/score'",
+      exitCode = 0,
+      stdout = [=[{"grantedPoints":160,"maxPoints":160,"likeCount":420,"downloadCount30Days":500000,"tags":["sdk:dart"]}]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://pub.dev/api/packages/melos/publisher'",
+      exitCode = 0,
+      stdout = [=[{"publisherId":"invertase.dev"}]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://pub.dev/api/packages/melo_cli'",
+      exitCode = 0,
+      stdout = [=[{"name":"melo_cli","latest":{"version":"1.2.0","pubspec":{"name":"melo_cli","description":"CLI helper for melodies.","homepage":"https://example.com/melo_cli","repository":"https://github.com/example/melo_cli","license":"BSD-3-Clause"}}}]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://pub.dev/api/packages/melo_cli/score'",
+      exitCode = 0,
+      stdout = [=[{"grantedPoints":120,"maxPoints":160,"likeCount":12,"downloadCount30Days":1500,"tags":["sdk:dart"]}]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://pub.dev/api/packages/melo_cli/publisher'",
+      exitCode = 0,
+      stdout = [=[null]=],
+      stderr = "",
+      success = true,
+    },
+  },
+  expect = {
+    success = true,
+    resultCount = 2,
+    resultName = "melos",
+    resultVersion = "6.3.3",
+    events = { "searched" },
+  },
+}

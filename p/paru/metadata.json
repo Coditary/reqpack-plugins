@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "paru",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for paru",
+  "description": "Thin ReqPack Lua plugin for paru, the Arch Linux repo and AUR helper",
+  "license": "MIT"
+}

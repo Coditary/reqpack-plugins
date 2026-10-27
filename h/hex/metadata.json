@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "hex",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Hex packages in Mix projects",
+  "description": "ReqPack Lua wrapper plugin for Hex package management in Elixir Mix projects via Hex and Mix CLI tasks",
+  "license": "MIT"
+}

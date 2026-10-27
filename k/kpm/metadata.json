@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "kpm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Kotlin Package Manager",
+  "description": "ReqPack Lua wrapper plugin for the jar-based Kotlin Package Manager using real project manifests, the shared KPM store, and Maven Central metadata queries.",
+  "license": "MIT"
+}

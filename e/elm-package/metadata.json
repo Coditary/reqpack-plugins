@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "elm-package",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for legacy Elm packages",
+  "description": "Thin ReqPack Lua plugin for legacy elm-package project dependency management and package.elm-lang.org metadata",
+  "license": "MIT"
+}

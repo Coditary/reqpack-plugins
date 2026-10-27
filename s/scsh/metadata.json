@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "scsh",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for scsh package installs",
+  "description": "Thin ReqPack wrapper bundle for scsh packages via scsh-install-pkg with ReqPack-managed local state and catalog cache",
+  "license": "MIT"
+}

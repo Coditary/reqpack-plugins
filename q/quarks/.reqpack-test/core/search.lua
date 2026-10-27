@@ -1,0 +1,40 @@
+return {
+  name = "quarks search directory cache",
+  fixtureRoot = "/tmp/opencode/quarks-search-case",
+  request = {
+    action = "search",
+    system = "quarks",
+    prompt = "math",
+    flags = { "data-root=/tmp/opencode/quarks-search-case/.reqpack-data" },
+  },
+  fixtureDirs = {
+    ".reqpack-data/quarks/state",
+    ".reqpack-data/quarks/cache",
+  },
+  fixtureFiles = {
+    { path = ".reqpack-data/quarks/state/installed.tsv", content = "" },
+    { path = ".reqpack-data/quarks/cache/directory.tsv", content = "" },
+  },
+  fakeExec = {
+    { match = "cat '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/state/installed.tsv'", exitCode = 1, stdout = "", stderr = "", success = false },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/home'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/home/.config'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/home/.local/share'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/home/.cache'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/config'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/runtime'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/cache'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/state'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "mkdir -p '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/runtime/scripts'", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "printf %s '(\nvar reqpackSanitize = { |value|", exitCode = 0, stdout = "", stderr = "", success = true },
+    { match = "NO_COLOR=1 LC_ALL=C LANG=C LANGUAGE=C HOME='/tmp/opencode/quarks-search-case/.reqpack-data/quarks/home' XDG_CONFIG_HOME='/tmp/opencode/quarks-search-case/.reqpack-data/quarks/home/.config' XDG_DATA_HOME='/tmp/opencode/quarks-search-case/.reqpack-data/quarks/home/.local/share' XDG_CACHE_HOME='/tmp/opencode/quarks-search-case/.reqpack-data/quarks/home/.cache' sclang -D '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/runtime/scripts/quarks-directory.scd'", exitCode = 0, stdout = "REQPACK\tDIR\tMathLib\thttps://github.com/supercollider-quarks/MathLib.git@main\nREQPACK\tDIR\tAnother\thttps://example.test/another.git@main\n", stderr = "", success = true },
+    { match = "printf %s 'MathLib\thttps://github.com/supercollider-quarks/MathLib.git\tmain\nAnother\thttps://example.test/another.git\tmain\n' > '/tmp/opencode/quarks-search-case/.reqpack-data/quarks/cache/directory.tsv'", exitCode = 0, stdout = "", stderr = "", success = true },
+  },
+  expect = {
+    success = true,
+    resultCount = 1,
+    resultName = "MathLib",
+    events = { "searched" },
+  },
+}

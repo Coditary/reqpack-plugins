@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "zef",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for zef Raku distributions",
+  "description": "ReqPack Lua wrapper plugin for zef with shared managed install, store, and temp paths for Raku distributions.",
+  "license": "MIT"
+}

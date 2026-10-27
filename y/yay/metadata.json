@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "yay",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for yay",
+  "description": "Thin ReqPack Lua plugin for yay, the Arch Linux repo and AUR helper",
+  "license": "MIT"
+}

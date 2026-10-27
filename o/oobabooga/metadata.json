@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "oobabooga",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for text-generation-webui portable installs and local model projection",
+  "description": "ReqPack Lua wrapper plugin for portable text-generation-webui app installs and local model projection into Oobabooga runtime layout",
+  "license": "MIT"
+}

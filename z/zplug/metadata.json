@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "zplug",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for zplug",
+  "description": "ReqPack Lua wrapper plugin for the zplug zsh plugin manager.",
+  "license": "MIT"
+}

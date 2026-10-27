@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "tads3",
+  "version": "0.1.0",
+  "summary": "ReqPack Lua wrapper plugin for TADS 3 libraries from IF Archive",
+  "description": "ReqPack Lua wrapper plugin for searching, installing, listing, and updating TADS 3 libraries from IF Archive into a shared local store",
+  "license": "MIT"
+}

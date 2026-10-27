@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "kxi",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for kxi package local q/kdb+ packages",
+  "description": "ReqPack Lua wrapper plugin for KX Insights CLI local package installs, artifacts, and package-library queries for q/kdb+",
+  "license": "MIT"
+}

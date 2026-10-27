@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "devtools",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for R packages via devtools and remotes",
+  "description": "ReqPack Lua wrapper plugin for R packages installed through devtools/remotes via Rscript with shared library and cache state",
+  "license": "MIT"
+}

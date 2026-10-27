@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "gleam",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Gleam",
+  "description": "Thin ReqPack wrapper bundle for managing Gleam project dependencies through the Gleam CLI and Hex package API",
+  "license": "MIT"
+}

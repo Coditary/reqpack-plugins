@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "cran",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for CRAN R packages",
+  "description": "ReqPack Lua wrapper plugin for CRAN packages via Rscript and base R package-management functions",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "stack",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Haskell Stack installs",
+  "description": "ReqPack Lua wrapper plugin for Haskell Stack package installs, local Stack projects, and Hackage package queries",
+  "license": "MIT"
+}

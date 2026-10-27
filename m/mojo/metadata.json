@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "mojo",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Modular Mojo installs",
+  "description": "ReqPack Lua wrapper plugin for managing the legacy Modular CLI Mojo SDK installation and local metadata",
+  "license": "MIT"
+}

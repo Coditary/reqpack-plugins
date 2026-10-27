@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "swiftpm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Swift Package Manager using a shared managed workspace",
+  "description": "ReqPack Lua wrapper plugin for Swift Package Manager that manages one shared dependency workspace, resolved state, and SwiftPM caches under ReqPack-owned paths.",
+  "license": "MIT"
+}

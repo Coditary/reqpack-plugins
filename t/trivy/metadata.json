@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "trivy",
+  "version": "0.1.0",
+  "summary": "ReqPack security-provider wrapper for Trivy DB sync",
+  "description": "ReqPack Lua wrapper plugin for importing Trivy vulnerability database advisories into ReqPack shared vulnerability indexes",
+  "license": "MIT"
+}

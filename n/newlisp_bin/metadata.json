@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "newlisp_bin",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for official newLISP binary and source releases",
+  "description": "Manages ReqPack-owned newLISP installs from official newlisp.org and SourceForge release artifacts.",
+  "license": "GPL-3.0-or-later"
+}

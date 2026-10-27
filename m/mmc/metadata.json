@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "mmc",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Mercury libraries via mmc --make",
+  "description": "Thin ReqPack wrapper bundle for managing tracked local Mercury library installs through the Mercury mmc compiler",
+  "license": "MIT"
+}

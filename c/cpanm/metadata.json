@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "cpanm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Perl cpanminus",
+  "description": "ReqPack Lua wrapper plugin for the Perl cpanm client using a plugin-owned cpanm home and local::lib install root.",
+  "license": "MIT"
+}

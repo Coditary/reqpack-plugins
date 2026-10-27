@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "red_cli",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for tracked red-cli projects",
+  "description": "ReqPack Lua wrapper plugin for managing local red-cli project installs through shared tracking and red.config.json metadata",
+  "license": "MIT"
+}

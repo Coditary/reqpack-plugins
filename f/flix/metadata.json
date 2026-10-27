@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "flix",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Flix package management",
+  "description": "ReqPack Lua wrapper plugin for Flix synthetic-project dependency management and GitHub package discovery",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "foundry",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Foundry",
+  "description": "ReqPack Lua wrapper plugin for Foundry forge dependency management in Solidity projects",
+  "license": "MIT"
+}

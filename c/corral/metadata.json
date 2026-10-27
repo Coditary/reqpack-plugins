@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "corral",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Pony Corral dependencies",
+  "description": "ReqPack Lua wrapper plugin for Pony Corral project dependency bundles with a shared cache bundle",
+  "license": "MIT"
+}

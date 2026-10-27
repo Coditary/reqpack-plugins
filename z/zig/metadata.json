@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "zig",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Zig package fetching",
+  "description": "Thin ReqPack Lua plugin for Zig fetch and build dependency cache workflows",
+  "license": "MIT"
+}

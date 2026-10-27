@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "gradle",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Gradle dependency cache warming",
+  "description": "ReqPack Lua wrapper plugin for Gradle using a plugin-owned synthetic project and shared Gradle user home to track and resolve Maven-style dependencies.",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "gt",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for GenomeTools gt releases",
+  "description": "ReqPack Lua wrapper plugin for installing and managing GenomeTools gt releases from upstream source tarballs",
+  "license": "MIT"
+}

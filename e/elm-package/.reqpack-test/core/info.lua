@@ -1,0 +1,87 @@
+return {
+  name = "elm-package info legacy registry",
+  request = {
+    action = "info",
+    system = "elm-package",
+    prompt = "elm-lang/core",
+    flags = {
+      "cwd=${fixtureRoot}/project",
+      "cache-root=${fixtureRoot}/cache",
+    },
+  },
+  fixtureFiles = {
+    ["project/elm-stuff/exact-dependencies.json"] = [[{"elm-lang/core":"5.1.0"}]],
+    ["cache/registry/all-packages.json"] = [=[[{"name":"elm-lang/core","summary":"Elm core","versions":["5.1.0","5.1.1"]}]]=],
+  },
+  fakeExec = {
+    {
+      match = "cat '${fixtureRoot}/cache/registry/all-packages.json'",
+      exitCode = 0,
+      stdout = [=[[{"name":"elm-lang/core","summary":"Elm core","versions":["5.1.0","5.1.1"]}]]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat '${fixtureRoot}/cache/registry/descriptions/elm-lang__core@5.1.1.json'",
+      exitCode = 1,
+      stdout = "",
+      stderr = "missing",
+      success = false,
+    },
+    {
+      match = "curl -fsSL 'https://package.elm-lang.org/description?elm-package-version=0.18&name=elm-lang%2Fcore&version=5.1.1'",
+      exitCode = 0,
+      stdout = [[{"version":"5.1.1","summary":"Elm's standard libraries","repository":"http://github.com/elm-lang/core.git","license":"BSD3","source-directories":["src"],"exposed-modules":["Basics"],"dependencies":{},"elm-version":"0.18.0 <= v < 0.19.0"}]],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/cache/registry/descriptions' && printf %s '{\"dependencies\":{},\"elm-version\":\"0.18.0 <= v < 0.19.0\",\"exposed-modules\":[\"Basics\"],\"license\":\"BSD3\",\"repository\":\"http://github.com/elm-lang/core.git\",\"source-directories\":[\"src\"],\"summary\":\"Elm'\''s standard libraries\",\"version\":\"5.1.1\"}' > '${fixtureRoot}/cache/registry/descriptions/elm-lang__core@5.1.1.json'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat '${fixtureRoot}/cache/registry/documentation/elm-lang__core@5.1.1.json'",
+      exitCode = 1,
+      stdout = "",
+      stderr = "missing",
+      success = false,
+    },
+    {
+      match = "curl -fsSL 'https://package.elm-lang.org/documentation?elm-package-version=0.18&name=elm-lang%2Fcore&version=5.1.1'",
+      exitCode = 0,
+      stdout = [=[[{"name":"Basics","aliases":[],"types":[],"values":[],"binops":[]}]]=],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/cache/registry/documentation' && printf %s '[{\"aliases\":[],\"binops\":[],\"name\":\"Basics\",\"types\":[],\"values\":[]}]' > '${fixtureRoot}/cache/registry/documentation/elm-lang__core@5.1.1.json'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat '${fixtureRoot}/project/elm-stuff/exact-dependencies.json'",
+      exitCode = 0,
+      stdout = [[{"elm-lang/core":"5.1.0"}]],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat '${fixtureRoot}/cache/registry/all-packages.json'",
+      exitCode = 0,
+      stdout = [=[[{"name":"elm-lang/core","summary":"Elm core","versions":["5.1.0","5.1.1"]}]]=],
+      stderr = "",
+      success = true,
+    },
+  },
+  expect = {
+    success = true,
+    events = { "listed", "informed" },
+    resultName = "elm-lang/core",
+    resultVersion = "5.1.1",
+  },
+}

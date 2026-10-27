@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "carbon",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Carbon Kubernetes packages",
+  "description": "Thin ReqPack Lua wrapper for Carbon package install, inspect, status, uninstall, and update workflows.",
+  "license": "MIT"
+}

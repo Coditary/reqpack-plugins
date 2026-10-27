@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "mise",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for mise tool installs",
+  "description": "ReqPack Lua wrapper plugin for mise-managed tool versions using ReqPack-scoped shared data, cache, and config roots",
+  "license": "MIT"
+}

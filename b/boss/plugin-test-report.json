@@ -1,0 +1,96 @@
+{
+  "plugin": "boss",
+  "pluginPath": "/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/b/boss/run.lua",
+  "passed": 4,
+  "failed": 4,
+  "cases": [
+    {
+      "name": "boss info from installed and cache",
+      "success": true,
+      "message": "",
+      "commands": ["cat './boss.json'", "cat './boss-lock.json'", "ls -1A './.reqpack-test/fixtures/cache-root/home/cache/info'", "cat './.reqpack-test/fixtures/cache-root/home/cache/info/horse.json'"],
+      "stdout": ["{\"name\":\"demo-app\",\"version\":\"1.0.0\",\"dependencies\":{\"github.com/HashLoad/horse\":\"^3.0.0\"}}", "{\"hash\":\"abc\",\"updated\":\"2026-05-30T12:00:00Z\",\"installedModules\":{\"github.com/hashload/horse\":{\"name\":\"horse\",\"version\":\"3.0.1\",\"hash\":\"horsehash\",\"artifacts\":{}}}}", "horse.json\n", "{\"key\":\"horsehash\",\"name\":\"github.com/HashLoad/horse\",\"last_update\":\"2026-05-30T12:00:00Z\",\"versions\":[\"3.0.0\",\"3.0.1\",\"3.1.0\"]}"],
+      "stderr": [],
+      "events": ["informed"],
+      "artifacts": [],
+      "eventRecords": [{"name":"informed","payload":"{extraFields=<lua-value>, homepage=https://github.com/github.com/HashLoad/horse, installed=true, latestVersion=3.1.0, name=github.com/HashLoad/horse, packageId=github.com/HashLoad/horse, sourceUrl=https://github.com/github.com/HashLoad/horse, status=installed, version=3.0.1}"}]
+    },
+    {
+      "name": "boss install local project dependencies",
+      "success": false,
+      "message": "resultName mismatch; resultVersion mismatch",
+      "commands": ["command -v 'boss' >/dev/null 2>&1", "test -e './fixtures/local-project/boss.json' >/dev/null 2>&1", "cd './fixtures/local-project' && BOSS_HOME='./.reqpack-test/fixtures/cache-root/home' NO_COLOR='1' LC_ALL='C' LANG='C' LANGUAGE='C' SHELL='/bin/sh' boss install", "cat './fixtures/local-project/boss.json'"],
+      "stdout": ["restored local deps\n", "{\"name\":\"local-lib\",\"version\":\"0.2.0\",\"dependencies\":{\"github.com/HashLoad/horse\":\"^3.0.0\"}}"],
+      "stderr": [],
+      "events": ["installed", "success"],
+      "artifacts": [],
+      "eventRecords": [{"name":"installed","payload":"{extraFields=<lua-value>, name=local-lib, packageId=local-lib, sourcePath=./fixtures/local-project, version=0.2.0}"}, {"name":"success","payload":"ok"}]
+    },
+    {
+      "name": "boss install remote dependency",
+      "success": false,
+      "message": "resultName mismatch; resultVersion mismatch",
+      "commands": ["command -v 'boss' >/dev/null 2>&1", "BOSS_HOME='./.reqpack-test/fixtures/cache-root/home' NO_COLOR='1' LC_ALL='C' LANG='C' LANGUAGE='C' SHELL='/bin/sh' boss install github.com/HashLoad/horse@^3.0.0", "cat './boss.json'", "cat './boss-lock.json'", "ls -1A './.reqpack-test/fixtures/cache-root/home/cache/info'", "cat './.reqpack-test/fixtures/cache-root/home/cache/info/horse.json'"],
+      "stdout": ["installed horse\n", "{\"name\":\"demo-app\",\"version\":\"1.0.0\",\"dependencies\":{\"github.com/HashLoad/horse\":\"^3.0.0\"}}", "{\"hash\":\"abc\",\"updated\":\"2026-05-30T12:00:00Z\",\"installedModules\":{\"github.com/hashload/horse\":{\"name\":\"horse\",\"version\":\"3.0.1\",\"hash\":\"horsehash\",\"artifacts\":{}}}}", "horse.json\n", "{\"key\":\"horsehash\",\"name\":\"github.com/HashLoad/horse\",\"last_update\":\"2026-05-30T12:00:00Z\",\"versions\":[\"3.0.0\",\"3.0.1\",\"3.1.0\"]}"],
+      "stderr": [],
+      "events": ["installed", "success"],
+      "artifacts": [],
+      "eventRecords": [{"name":"installed","payload":"{extraFields=<lua-value>, homepage=https://github.com/github.com/HashLoad/horse, installed=true, latestVersion=3.1.0, name=github.com/HashLoad/horse, packageId=github.com/HashLoad/horse, sourceUrl=https://github.com/github.com/HashLoad/horse, status=installed, version=3.0.1}"}, {"name":"success","payload":"ok"}]
+    },
+    {
+      "name": "boss list project dependencies",
+      "success": true,
+      "message": "",
+      "commands": ["cat './boss.json'", "cat './boss-lock.json'", "ls -1A './.reqpack-test/fixtures/cache-root/home/cache/info'", "cat './.reqpack-test/fixtures/cache-root/home/cache/info/horse.json'"],
+      "stdout": ["{\"name\":\"demo-app\",\"version\":\"1.0.0\",\"dependencies\":{\"github.com/HashLoad/horse\":\"^3.0.0\"}}", "{\"hash\":\"abc\",\"updated\":\"2026-05-30T12:00:00Z\",\"installedModules\":{\"github.com/hashload/horse\":{\"name\":\"horse\",\"version\":\"3.0.1\",\"hash\":\"horsehash\",\"artifacts\":{}}}}", "horse.json\n", "{\"key\":\"horsehash\",\"name\":\"github.com/HashLoad/horse\",\"last_update\":\"2026-05-30T12:00:00Z\",\"versions\":[\"3.0.0\",\"3.0.1\",\"3.1.0\"]}"],
+      "stderr": [],
+      "events": ["listed"],
+      "artifacts": [],
+      "eventRecords": [{"name":"listed","payload":"{1=<lua-value>}"}]
+    },
+    {
+      "name": "boss outdated from cache info",
+      "success": true,
+      "message": "",
+      "commands": ["cat './boss.json'", "cat './boss-lock.json'", "ls -1A './.reqpack-test/fixtures/cache-root/home/cache/info'", "cat './.reqpack-test/fixtures/cache-root/home/cache/info/horse.json'"],
+      "stdout": ["{\"name\":\"demo-app\",\"version\":\"1.0.0\",\"dependencies\":{\"github.com/HashLoad/horse\":\"^3.0.0\"}}", "{\"hash\":\"abc\",\"updated\":\"2026-05-30T12:00:00Z\",\"installedModules\":{\"github.com/hashload/horse\":{\"name\":\"horse\",\"version\":\"3.0.1\",\"hash\":\"horsehash\",\"artifacts\":{}}}}", "horse.json\n", "{\"key\":\"horsehash\",\"name\":\"github.com/HashLoad/horse\",\"last_update\":\"2026-05-30T12:00:00Z\",\"versions\":[\"3.0.0\",\"3.0.1\",\"3.1.0\"]}"],
+      "stderr": [],
+      "events": ["outdated"],
+      "artifacts": [],
+      "eventRecords": [{"name":"outdated","payload":"{1=<lua-value>}"}]
+    },
+    {
+      "name": "boss remove dependency",
+      "success": false,
+      "message": "resultName mismatch; resultVersion mismatch",
+      "commands": ["command -v 'boss' >/dev/null 2>&1", "cat './boss.json'", "cat './boss-lock.json'", "ls -1A './.reqpack-test/fixtures/cache-root/home/cache/info'", "BOSS_HOME='./.reqpack-test/fixtures/cache-root/home' NO_COLOR='1' LC_ALL='C' LANG='C' LANGUAGE='C' SHELL='/bin/sh' boss uninstall github.com/HashLoad/horse"],
+      "stdout": ["{\"name\":\"demo-app\",\"version\":\"1.0.0\",\"dependencies\":{\"github.com/HashLoad/horse\":\"^3.0.0\"}}", "{\"hash\":\"abc\",\"updated\":\"2026-05-30T12:00:00Z\",\"installedModules\":{\"github.com/hashload/horse\":{\"name\":\"horse\",\"version\":\"3.0.1\",\"hash\":\"horsehash\",\"artifacts\":{}}}}", "removed horse\n"],
+      "stderr": ["missing"],
+      "events": ["deleted", "success"],
+      "artifacts": [],
+      "eventRecords": [{"name":"deleted","payload":"{extraFields=<lua-value>, homepage=https://github.com/github.com/HashLoad/horse, installed=true, latestVersion=3.0.1, name=github.com/HashLoad/horse, packageId=github.com/HashLoad/horse, sourceUrl=https://github.com/github.com/HashLoad/horse, status=installed, version=3.0.1}"}, {"name":"success","payload":"ok"}]
+    },
+    {
+      "name": "boss search from manifest and cache",
+      "success": true,
+      "message": "",
+      "commands": ["cat './boss.json'", "cat './boss-lock.json'", "ls -1A './.reqpack-test/fixtures/cache-root/home/cache/info'", "cat './.reqpack-test/fixtures/cache-root/home/cache/info/horse.json'", "cat './.reqpack-test/fixtures/cache-root/home/cache/info/jhonson.json'"],
+      "stdout": ["{\"name\":\"demo-app\",\"version\":\"1.0.0\",\"dependencies\":{\"github.com/HashLoad/horse\":\"^3.0.0\"}}", "{\"hash\":\"abc\",\"updated\":\"2026-05-30T12:00:00Z\",\"installedModules\":{\"github.com/hashload/horse\":{\"name\":\"horse\",\"version\":\"3.0.1\",\"hash\":\"horsehash\",\"artifacts\":{}}}}", "horse.json\njhonson.json\n", "{\"key\":\"horsehash\",\"name\":\"github.com/HashLoad/horse\",\"last_update\":\"2026-05-30T12:00:00Z\",\"versions\":[\"3.0.0\",\"3.0.1\",\"3.1.0\"]}", "{\"key\":\"jhonsonhash\",\"name\":\"github.com/HashLoad/jhonson\",\"last_update\":\"2026-05-30T12:00:00Z\",\"versions\":[\"1.0.0\"]}"],
+      "stderr": [],
+      "events": ["searched"],
+      "artifacts": [],
+      "eventRecords": [{"name":"searched","payload":"{1=<lua-value>}"}]
+    },
+    {
+      "name": "boss update project dependencies",
+      "success": false,
+      "message": "resultName mismatch; resultVersion mismatch",
+      "commands": ["command -v 'boss' >/dev/null 2>&1", "BOSS_HOME='./.reqpack-test/fixtures/cache-root/home' NO_COLOR='1' LC_ALL='C' LANG='C' LANGUAGE='C' SHELL='/bin/sh' boss update", "cat './boss.json'", "cat './boss-lock.json'", "ls -1A './.reqpack-test/fixtures/cache-root/home/cache/info'", "cat './.reqpack-test/fixtures/cache-root/home/cache/info/horse.json'"],
+      "stdout": ["updated all\n", "{\"name\":\"demo-app\",\"version\":\"1.0.0\",\"dependencies\":{\"github.com/HashLoad/horse\":\"^3.0.0\"}}", "{\"hash\":\"abc\",\"updated\":\"2026-05-30T12:00:00Z\",\"installedModules\":{\"github.com/hashload/horse\":{\"name\":\"horse\",\"version\":\"3.1.0\",\"hash\":\"horsehash\",\"artifacts\":{}}}}", "horse.json\n", "{\"key\":\"horsehash\",\"name\":\"github.com/HashLoad/horse\",\"last_update\":\"2026-05-30T12:00:00Z\",\"versions\":[\"3.0.0\",\"3.0.1\",\"3.1.0\"]}"],
+      "stderr": [],
+      "events": ["updated", "success"],
+      "artifacts": [],
+      "eventRecords": [{"name":"updated","payload":"{1=<lua-value>}"}, {"name":"success","payload":"ok"}]
+    }
+  ]
+}

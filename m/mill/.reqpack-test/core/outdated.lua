@@ -1,0 +1,121 @@
+return {
+  name = "mill outdated installed launcher",
+  request = {
+    action = "outdated",
+    system = "mill",
+    flags = {
+      "data-root=${fixtureRoot}/.reqpack-data",
+      "cache-root=${fixtureRoot}/.reqpack-cache",
+      "config-root=${fixtureRoot}/.reqpack-config",
+    },
+  },
+  fixtureDirs = {
+    "${fixtureRoot}/.reqpack-data/mill/records",
+  },
+  fixtureFiles = {
+    {
+      path = "${fixtureRoot}/.reqpack-data/mill/records/mill_0_12_11.tsv",
+      content = "id\tmill@0.12.11\nname\tmill\nversion\t0.12.11\nlauncherPath\t${fixtureRoot}/.reqpack-data/mill/bin/mill-0.12.11\ndownloadPath\t${fixtureRoot}/.reqpack-cache/mill/downloads/mill-0.12.11.sh\nhomepage\thttps://mill-build.org/\nupdatedAt\t0\n",
+    },
+  },
+  fakeExec = {
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/mill/bin'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/mill/records'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/downloads'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/user-cache'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/coursier'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/coursier-jvm'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/mill/home'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-cache/mill/xdg-cache'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-config/mill/xdg-config'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '${fixtureRoot}/.reqpack-data/mill/xdg-data'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "curl -fsSL 'https://repo1.maven.org/maven2/com/lihaoyi/mill-dist/maven-metadata.xml' -o '${fixtureRoot}/.reqpack-cache/mill/maven-metadata.xml'",
+      exitCode = 0,
+      stdout = "<metadata><versioning><latest>1.0.4</latest><release>1.0.4</release><versions><version>0.12.11</version><version>1.0.4</version></versions></versioning></metadata>",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "ls -1A '${fixtureRoot}/.reqpack-data/mill/records'",
+      exitCode = 0,
+      stdout = "mill_0_12_11.tsv\n",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat '${fixtureRoot}/.reqpack-data/mill/records/mill_0_12_11.tsv'",
+      exitCode = 0,
+      stdout = "id\tmill@0.12.11\nname\tmill\nversion\t0.12.11\nlauncherPath\t${fixtureRoot}/.reqpack-data/mill/bin/mill-0.12.11\ndownloadPath\t${fixtureRoot}/.reqpack-cache/mill/downloads/mill-0.12.11.sh\nhomepage\thttps://mill-build.org/\nupdatedAt\t0\n",
+      stderr = "",
+      success = true,
+    },
+  },
+  expect = {
+    success = true,
+    events = { "outdated" },
+    resultCount = 1,
+    resultName = "mill",
+    resultVersion = "0.12.11",
+  }
+}

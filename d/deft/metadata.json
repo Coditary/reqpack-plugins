@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "deft",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Dylan packages via Deft",
+  "description": "Thin ReqPack wrapper bundle for managing Dylan packages through the Open Dylan Deft CLI",
+  "license": "MIT"
+}

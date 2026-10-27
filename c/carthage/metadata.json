@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "carthage",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Carthage project dependencies",
+  "description": "Thin ReqPack Lua wrapper for managing Carthage dependencies in Objective-C and Cocoa projects through Cartfile and Cartfile.resolved.",
+  "license": "MIT"
+}

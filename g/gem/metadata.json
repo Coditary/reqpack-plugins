@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "gem",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for RubyGems",
+  "description": "ReqPack Lua wrapper plugin for RubyGems using a plugin-owned GEM_HOME and shared spec cache.",
+  "license": "MIT"
+}

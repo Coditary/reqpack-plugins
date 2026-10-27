@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "elan",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for elan Lean toolchains",
+  "description": "ReqPack Lua wrapper plugin for Lean toolchains managed by elan",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "nix",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for bootstrapped Nix profile management",
+  "description": "ReqPack Lua plugin that bootstraps Nix when needed and wraps nix profile and nix search.",
+  "license": "MIT"
+}

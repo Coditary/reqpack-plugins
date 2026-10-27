@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "getit",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Embarcadero GetIt",
+  "description": "ReqPack Lua wrapper plugin for Embarcadero GetIt package management via GetItCmd.exe",
+  "license": "MIT"
+}

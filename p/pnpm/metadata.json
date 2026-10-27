@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "pnpm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for pnpm packages",
+  "description": "ReqPack Lua wrapper plugin for pnpm project and global package management via the pnpm CLI",
+  "license": "MIT"
+}

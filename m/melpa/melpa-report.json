@@ -1,0 +1,19 @@
+{
+  "plugin": "melpa",
+  "pluginPath": "/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/run.lua",
+  "passed": 0,
+  "failed": 1,
+  "cases": [
+    {
+      "name": "melpa list installed packages",
+      "success": false,
+      "message": "resultCount mismatch; resultName mismatch; resultVersion mismatch",
+      "commands": ["command -v 'emacs' >/dev/null 2>&1", "REQPACK_MELPA_ARCHIVE_URL='https://melpa.org/packages/' REQPACK_MELPA_PACKAGE_USER_DIR='/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/.reqpack-data/elpa' REQPACK_MELPA_XDG_CACHE_HOME='/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/.reqpack-data/cache' REQPACK_MELPA_XDG_CONFIG_HOME='/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/.reqpack-data/config' REQPACK_MELPA_TMPDIR='/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/.reqpack-data/tmp' REQPACK_MELPA_ACTION='list' REQPACK_MELPA_NAMES='' REQPACK_MELPA_PROMPT='' REQPACK_MELPA_LOCAL_PATH='' LC_ALL=C LANG=C LANGUAGE=C emacs --batch --quick --load 'package' --load '/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/scripts/reqpack-batch.el'"],
+      "stdout": [],
+      "stderr": ["no fakeExec rule matched command: REQPACK_MELPA_ARCHIVE_URL='https://melpa.org/packages/' REQPACK_MELPA_PACKAGE_USER_DIR='/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/.reqpack-data/elpa' REQPACK_MELPA_XDG_CACHE_HOME='/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/.reqpack-data/cache' REQPACK_MELPA_XDG_CONFIG_HOME='/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/.reqpack-data/config' REQPACK_MELPA_TMPDIR='/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/.reqpack-data/tmp' REQPACK_MELPA_ACTION='list' REQPACK_MELPA_NAMES='' REQPACK_MELPA_PROMPT='' REQPACK_MELPA_LOCAL_PATH='' LC_ALL=C LANG=C LANGUAGE=C emacs --batch --quick --load 'package' --load '/home/Leodoras/Dev/Coditary/ReqPack/rqp-plugins/m/melpa/scripts/reqpack-batch.el'"],
+      "events": ["listed"],
+      "artifacts": [],
+      "eventRecords": [{"name":"listed","payload":"{}"}]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "melpa",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for MELPA",
+  "description": "ReqPack Lua wrapper plugin for MELPA packages through Emacs package.el batch mode",
+  "license": "MIT"
+}

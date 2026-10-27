@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "futhark",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Futhark package manifests",
+  "description": "ReqPack Lua wrapper plugin for Futhark project dependencies managed through futhark pkg",
+  "license": "MIT"
+}

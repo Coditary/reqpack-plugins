@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "vfp-pm",
+  "version": "0.1.0",
+  "summary": "ReqPack bridge for FoxPro packages via FoxGet metadata and VFP automation",
+  "description": "ReqPack Lua wrapper plugin for Visual FoxPro package management using cached FoxGet catalog exports and a configurable VFP bridge for install, remove, and update actions",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "conan",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Conan v2",
+  "description": "Thin ReqPack Lua wrapper around Conan v2 for cache-oriented recipe and package operations.",
+  "license": "MIT"
+}

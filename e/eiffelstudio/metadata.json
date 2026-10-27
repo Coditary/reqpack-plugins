@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "eiffelstudio",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for EiffelStudio IRON",
+  "description": "ReqPack Lua wrapper plugin for EiffelStudio packages through the bundled iron command line tool",
+  "license": "MIT"
+}

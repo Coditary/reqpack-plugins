@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "zinit",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for zinit",
+  "description": "ReqPack Lua wrapper plugin for managing zsh plugins and snippets through a dedicated shared zinit home",
+  "license": "MIT"
+}

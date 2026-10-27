@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "poetry",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Poetry projects",
+  "description": "ReqPack Lua wrapper plugin for Poetry-managed Python project dependencies via the Poetry CLI",
+  "license": "MIT"
+}

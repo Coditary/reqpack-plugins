@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "octave-forge",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Octave Forge packages",
+  "description": "ReqPack Lua wrapper plugin for GNU Octave package management through the built-in pkg command and Octave package index",
+  "license": "MIT"
+}

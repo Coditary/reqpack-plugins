@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "hbmk2",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for hbmk2 Harbour packages",
+  "description": "ReqPack Lua wrapper plugin for managing tracked Harbour .hbc package references through hbmk2",
+  "license": "MIT"
+}

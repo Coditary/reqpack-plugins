@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "teez",
+  "version": "0.1.0",
+  "summary": "ReqPack teez runner plugin catalog",
+  "description": "ReqPack plugin for optional teez runner plugins (vitest, …). The teez CLI is installed via ReqPack releases.",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "ghskill",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for GitHub CLI gh skill and shared skill cache projection",
+  "description": "ReqPack Lua wrapper plugin for GitHub CLI gh skill installs with plugin-managed shared AICache metadata and runtime projections",
+  "license": "MIT"
+}

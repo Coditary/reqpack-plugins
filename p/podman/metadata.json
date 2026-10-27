@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "podman",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Podman images",
+  "description": "ReqPack Lua wrapper plugin for Podman container image pull, load, remove, search, and inspect flows via the Podman CLI",
+  "license": "MIT"
+}

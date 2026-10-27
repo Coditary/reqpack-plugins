@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "rpm",
+  "version": "0.1.0",
+  "summary": "RPM wrapper plugin",
+  "description": "ReqPack wrapper for rpm with optional dnf/yum fallbacks",
+  "license": "MIT"
+}

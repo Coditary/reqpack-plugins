@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "pacman",
+  "version": "0.1.0",
+  "summary": "Native pacman wrapper plugin",
+  "description": "ReqPack wrapper plugin for Arch Linux pacman repositories and local package files",
+  "license": "MIT"
+}

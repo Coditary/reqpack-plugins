@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "spm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Skill Package Manager",
+  "description": "ReqPack Lua wrapper plugin for Skill Package Manager skills via the spm CLI",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "spago",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Spago",
+  "description": "ReqPack Lua wrapper plugin for Spago workspace dependency management and PureScript Registry package queries",
+  "license": "MIT"
+}

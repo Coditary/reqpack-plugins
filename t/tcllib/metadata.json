@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "tcllib",
+  "version": "0.1.0",
+  "summary": "ReqPack Lua wrapper plugin for Tcllib release installation",
+  "description": "ReqPack Lua wrapper plugin for installing and querying Tcllib releases through Tcllib's bundled installer.tcl workflow",
+  "license": "MIT"
+}

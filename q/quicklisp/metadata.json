@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "quicklisp",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Quicklisp Common Lisp systems",
+  "description": "ReqPack Lua wrapper plugin for Quicklisp Common Lisp systems via batch Lisp execution",
+  "license": "MIT"
+}

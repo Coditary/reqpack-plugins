@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "clasp",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for clasp",
+  "description": "ReqPack Lua wrapper plugin for Google Apps Script project management via the clasp CLI",
+  "license": "MIT"
+}

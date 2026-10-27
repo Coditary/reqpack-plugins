@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "rtx",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for rtx-cli dev tool installs",
+  "description": "ReqPack Lua wrapper plugin for rtx-cli, with automatic fallback to current mise binary and shared localized runtime state",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "dappy",
+  "version": "0.1.0",
+  "summary": "ReqPack Dappy adapter and target plugin catalog",
+  "description": "ReqPack plugin for optional Dappy adapter manifests (python, rust, …) and RSP target manifests (gdbserver, qemu, …).",
+  "license": "MIT"
+}

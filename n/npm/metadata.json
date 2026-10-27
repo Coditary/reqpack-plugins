@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "npm",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for global npm packages",
+  "description": "ReqPack Lua wrapper plugin for globally managed npm packages via the npm CLI",
+  "license": "MIT"
+}

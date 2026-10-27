@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "snyk",
+  "version": "0.1.0",
+  "summary": "ReqPack security-provider wrapper for Snyk exports",
+  "description": "ReqPack Lua wrapper plugin for Snyk security export syncing into ReqPack shared vulnerability indexes",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "zypper",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Zypper",
+  "description": "Thin ReqPack Lua plugin for the Zypper package manager",
+  "license": "MIT"
+}

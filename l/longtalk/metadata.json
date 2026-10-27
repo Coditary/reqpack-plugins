@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "longtalk",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper plugin for Logtalk packs",
+  "description": "Thin ReqPack Lua wrapper bundle for managing Logtalk packs through Logtalk integration scripts",
+  "license": "MIT"
+}

@@ -1,0 +1,126 @@
+return {
+  name = "swiftpm install remote dependency",
+  fixtureRoot = "/tmp/opencode/swiftpm-install",
+  request = {
+    action = "install",
+    system = "swiftpm",
+    flags = {
+      "data-root=/tmp/opencode/swiftpm-install/data",
+      "cache-root=/tmp/opencode/swiftpm-install/cache",
+      "config-root=/tmp/opencode/swiftpm-install/config"
+    },
+    packages = {
+      { name = "https://github.com/apple/swift-argument-parser.git", version = "1.3.0" }
+    },
+  },
+  environment = {
+    REQPACK_TEST_FIXTURE_ROOT = "${fixtureRoot}",
+  },
+  fakeExec = {
+    {
+      match = "command -v 'swift' >/dev/null 2>&1",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat '/tmp/opencode/swiftpm-install/data/swiftpm/dependencies.tsv'",
+      exitCode = 1,
+      stdout = "",
+      stderr = "missing\n",
+      success = false,
+    },
+    {
+      match = "cat '/tmp/opencode/swiftpm-install/data/swiftpm/workspace/Package.swift'",
+      exitCode = 1,
+      stdout = "",
+      stderr = "missing\n",
+      success = false,
+    },
+    {
+      match = "cat '/tmp/opencode/swiftpm-install/data/swiftpm/workspace/Package.resolved'",
+      exitCode = 1,
+      stdout = "",
+      stderr = "missing\n",
+      success = false,
+    },
+    {
+      match = "mkdir -p '/tmp/opencode/swiftpm-install/data/swiftpm/home'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '/tmp/opencode/swiftpm-install/data/swiftpm/workspace'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '/tmp/opencode/swiftpm-install/cache/swiftpm/cache'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '/tmp/opencode/swiftpm-install/cache/swiftpm/scratch'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '/tmp/opencode/swiftpm-install/config/swiftpm/configuration'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '/tmp/opencode/swiftpm-install/config/swiftpm/security'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "mkdir -p '/tmp/opencode/swiftpm-install/data/swiftpm'",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "HOME='/tmp/opencode/swiftpm-install/data/swiftpm/home' NO_COLOR='1' LC_ALL='C' LANG='C' LANGUAGE='C' swift package --package-path '/tmp/opencode/swiftpm-install/data/swiftpm/workspace' --cache-path '/tmp/opencode/swiftpm-install/cache/swiftpm/cache' --config-path '/tmp/opencode/swiftpm-install/config/swiftpm/configuration' --security-path '/tmp/opencode/swiftpm-install/config/swiftpm/security' --scratch-path '/tmp/opencode/swiftpm-install/cache/swiftpm/scratch' resolve",
+      exitCode = 0,
+      stdout = "resolved\n",
+      stderr = "",
+      success = true,
+    },
+  },
+  expect = {
+    success = true,
+    commands = {
+      "command -v 'swift' >/dev/null 2>&1",
+      "mkdir -p '/tmp/opencode/swiftpm-install/data/swiftpm/home'",
+      "mkdir -p '/tmp/opencode/swiftpm-install/data/swiftpm/workspace'",
+      "mkdir -p '/tmp/opencode/swiftpm-install/cache/swiftpm/cache'",
+      "mkdir -p '/tmp/opencode/swiftpm-install/cache/swiftpm/scratch'",
+      "mkdir -p '/tmp/opencode/swiftpm-install/config/swiftpm/configuration'",
+      "mkdir -p '/tmp/opencode/swiftpm-install/config/swiftpm/security'",
+      "cat '/tmp/opencode/swiftpm-install/data/swiftpm/dependencies.tsv'",
+      "cat '/tmp/opencode/swiftpm-install/data/swiftpm/workspace/Package.swift'",
+      "cat '/tmp/opencode/swiftpm-install/data/swiftpm/workspace/Package.resolved'",
+      "cat '/tmp/opencode/swiftpm-install/data/swiftpm/dependencies.tsv'",
+      "mkdir -p '/tmp/opencode/swiftpm-install/data/swiftpm/workspace'",
+      "mkdir -p '/tmp/opencode/swiftpm-install/data/swiftpm'",
+      "HOME='/tmp/opencode/swiftpm-install/data/swiftpm/home' NO_COLOR='1' LC_ALL='C' LANG='C' LANGUAGE='C' swift package --package-path '/tmp/opencode/swiftpm-install/data/swiftpm/workspace' --cache-path '/tmp/opencode/swiftpm-install/cache/swiftpm/cache' --config-path '/tmp/opencode/swiftpm-install/config/swiftpm/configuration' --security-path '/tmp/opencode/swiftpm-install/config/swiftpm/security' --scratch-path '/tmp/opencode/swiftpm-install/cache/swiftpm/scratch' resolve",
+      "cat '/tmp/opencode/swiftpm-install/data/swiftpm/workspace/Package.resolved'",
+    },
+    events = { "installed", "success" },
+  }
+}

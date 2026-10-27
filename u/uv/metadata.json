@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "uv",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for uv tools",
+  "description": "ReqPack Lua wrapper plugin for Astral uv global tool installs and PyPI-backed package queries",
+  "license": "MIT"
+}

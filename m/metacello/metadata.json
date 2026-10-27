@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "metacello",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Metacello on Pharo",
+  "description": "ReqPack Lua wrapper plugin for loading and tracking Pharo projects through Metacello",
+  "license": "MIT"
+}

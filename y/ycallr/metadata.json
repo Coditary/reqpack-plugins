@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "ycallr",
+  "version": "0.1.0",
+  "summary": "ReqPack ycallr package manager",
+  "description": "ReqPack plugin for ycallr API profile catalogs and .rqp package installs",
+  "license": "MIT"
+}

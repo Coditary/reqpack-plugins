@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "luarocks",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for LuaRocks",
+  "description": "ReqPack Lua wrapper plugin for LuaRocks using a plugin-owned rocks tree and shared cache.",
+  "license": "MIT"
+}

@@ -1,0 +1,95 @@
+return {
+  name = "kpm install local manifest",
+  request = {
+    action = "installLocal",
+    system = "kpm",
+    projectRoot = "./.reqpack-test/fixtures/install-local-case/project",
+    flags = { "project-root=./.reqpack-test/fixtures/install-local-case/project" },
+    localPath = "./.reqpack-test/fixtures/install-local-case/vendor-project/kpm.json",
+  },
+  fixtureFiles = {
+    {
+      path = ".reqpack-test/fixtures/install-local-case/project/kpm.json",
+      content = [[{"name":"demo-app","version":"1.0.0","main":"AppKt","dependencies":[]}]],
+    },
+    {
+      path = ".reqpack-test/fixtures/install-local-case/vendor-project/kpm.json",
+      content = [[{"name":"vendor-app","version":"0.1.0","main":"VendorKt","dependencies":["com.google.code.gson:gson:2.10.1"]}]],
+    },
+  },
+  fixtureDirs = {
+    ".reqpack-test/fixtures/install-local-case/project",
+    ".reqpack-test/fixtures/install-local-case/vendor-project",
+  },
+  fakeExec = {
+    {
+      match = "mkdir -p ./.reqpack-test/fixtures/install-local-case/project",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat './.reqpack-test/fixtures/install-local-case/project/kpm.json'",
+      exitCode = 0,
+      stdout = [[{"name":"demo-app","version":"1.0.0","main":"AppKt","dependencies":[]}]],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "test -d ./.reqpack-test/fixtures/install-local-case/vendor-project/kpm.json",
+      exitCode = 1,
+      stdout = "",
+      stderr = "",
+      success = false,
+    },
+    {
+      match = "cat './.reqpack-test/fixtures/install-local-case/vendor-project/kpm.json'",
+      exitCode = 0,
+      stdout = [[{"name":"vendor-app","version":"0.1.0","main":"VendorKt","dependencies":["com.google.code.gson:gson:2.10.1"]}]],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "cat ./.reqpack-test/fixtures/install-local-case/vendor-project/kpm.json",
+      exitCode = 0,
+      stdout = [[{"name":"vendor-app","version":"0.1.0","main":"VendorKt","dependencies":["com.google.code.gson:gson:2.10.1"]}]],
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "command -v java >/dev/null 2>&1",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "test -x \"$HOME/.local/share/reqpack/kpm/bin/kpm\"",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "\"$HOME/.local/share/reqpack/kpm/bin/kpm\" install",
+      exitCode = 0,
+      stdout = "installed\n",
+      stderr = "",
+      success = true,
+    },
+  },
+  expect = {
+    success = true,
+    commands = {
+      "cat './.reqpack-test/fixtures/install-local-case/project/kpm.json'",
+      "test -d ./.reqpack-test/fixtures/install-local-case/vendor-project/kpm.json",
+      "cat './.reqpack-test/fixtures/install-local-case/vendor-project/kpm.json'",
+      "mkdir -p ./.reqpack-test/fixtures/install-local-case/project",
+      "command -v java >/dev/null 2>&1",
+      "test -x \"$HOME/.local/share/reqpack/kpm/bin/kpm\"",
+      "\"$HOME/.local/share/reqpack/kpm/bin/kpm\" install",
+    },
+    events = { "installed", "success" },
+  },
+}

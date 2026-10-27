@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "lake",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Lean Lake workspaces and dependencies",
+  "description": "Workspace-oriented ReqPack plugin for Lean's Lake package manager with shared cache, Reservoir search, and direct dependency management.",
+  "license": "MIT"
+}

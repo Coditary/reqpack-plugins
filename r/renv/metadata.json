@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "renv",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for renv-managed R project environments",
+  "description": "ReqPack Lua wrapper plugin for renv project libraries and shared package cache via Rscript",
+  "license": "MIT"
+}

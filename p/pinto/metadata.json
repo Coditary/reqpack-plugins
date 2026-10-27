@@ -1,0 +1,8 @@
+{
+  "formatVersion": 1,
+  "name": "pinto",
+  "version": "0.1.0",
+  "summary": "ReqPack wrapper for Pinto CPAN repository curation",
+  "description": "ReqPack Lua wrapper plugin for Pinto using a shared plugin-owned repository root and stack-aware package curation.",
+  "license": "MIT"
+}
