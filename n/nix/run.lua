@@ -506,6 +506,65 @@ local function nix_store_blocks_single_user_bootstrap(context)
     return writable == nil or not writable.success
 end
 
+local function nix_installer_command(installer_args)
+    return "curl -L " .. shell_quote(NIX_INSTALLER_URL) .. " | sh -s -- " .. installer_args
+end
+
+local POST_BOOTSTRAP_NIX_CANDIDATES = {
+    "$HOME/.nix-profile/bin/nix",
+    "/nix/var/nix/profiles/default/bin/nix",
+}
+
+local function activate_post_bootstrap_nix(context, prefer_multi_user_profile)
+    local candidates = POST_BOOTSTRAP_NIX_CANDIDATES
+    if prefer_multi_user_profile then
+        candidates = {
+            "/nix/var/nix/profiles/default/bin/nix",
+            "$HOME/.nix-profile/bin/nix",
+        }
+    end
+    for _, candidate in ipairs(candidates) do
+        if nix_binary_works(context, candidate) then
+            active_nix_binary = candidate
+            return active_nix_binary, nil
+        end
+    end
+    active_nix_binary = nil
+    return nil, "nix bootstrap finished but nix --version failed"
+end
+
+local function bootstrap_nix(context)
+    if not command_exists(context, "curl") then
+        return nil, "nix bootstrap requires curl"
+    end
+
+    local use_multi_user = nix_store_blocks_single_user_bootstrap(context)
+    local installer_args = use_multi_user and "--yes" or "--no-daemon --yes"
+    begin_step(context, use_multi_user and "bootstrap nix (multi-user)" or "bootstrap nix")
+
+    local result = exec_run(context, nix_installer_command(installer_args))
+    if result == nil or result.success ~= true then
+        local detail = trim(result and result.stderr or "")
+        if detail == "" then
+            detail = trim(result and result.stdout or "")
+        end
+        if use_multi_user then
+            local hint =
+                " (existing /nix/store may need nix-daemon: sudo dnf install nix && sudo systemctl enable --now nix-daemon; usermod -aG nix-users $USER)"
+            if detail ~= "" then
+                return nil, "nix bootstrap failed: " .. detail .. hint
+            end
+            return nil, "nix bootstrap failed" .. hint
+        end
+        if detail ~= "" then
+            return nil, "nix bootstrap failed: " .. detail
+        end
+        return nil, "nix bootstrap failed"
+    end
+
+    return activate_post_bootstrap_nix(context, use_multi_user)
+end
+
 local function find_existing_nix_binary(context)
     if active_nix_binary ~= nil then
         return active_nix_binary
@@ -536,39 +595,6 @@ local function find_existing_nix_binary(context)
     end
 
     return nil
-end
-
-local function bootstrap_nix(context)
-    if not command_exists(context, "curl") then
-        return nil, "nix bootstrap requires curl"
-    end
-
-    if nix_store_blocks_single_user_bootstrap(context) then
-        return nil,
-            "Nix store at /nix exists but is not writable for this user; enable nix-daemon "
-                .. "(sudo systemctl enable --now nix-daemon, group nix-users) or remove /nix for single-user bootstrap"
-    end
-
-    begin_step(context, "bootstrap nix")
-    local command = "curl -L " .. shell_quote(NIX_INSTALLER_URL) .. " | sh -s -- --no-daemon --yes"
-    local result = exec_run(context, command)
-    if result == nil or result.success ~= true then
-        local detail = trim(result and result.stderr or "")
-        if detail == "" then
-            detail = trim(result and result.stdout or "")
-        end
-        if detail ~= "" then
-            return nil, "nix bootstrap failed: " .. detail
-        end
-        return nil, "nix bootstrap failed"
-    end
-
-    active_nix_binary = "$HOME/.nix-profile/bin/nix"
-    if not nix_binary_works(context, active_nix_binary) then
-        active_nix_binary = nil
-        return nil, "nix bootstrap finished but nix --version failed"
-    end
-    return active_nix_binary, nil
 end
 
 local function ensure_nix(context)
