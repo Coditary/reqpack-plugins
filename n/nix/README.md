@@ -6,8 +6,8 @@ Plugin wraps modern `nix profile` workflow for install, remove, update, and list
 
 ## Behavior
 
-- bootstraps Nix when no working `nix` binary is available: downloads the official installer with **`context.net.download`**, then runs `sh <installer> [--daemon]` (macOS: no `--daemon`; Linux/Windows: `--daemon`)
-- **`scripts/install.lua`** is a no-op; bootstrap happens from `run.lua` where the ReqPack download API is available
+- bootstraps Nix when no working `nix` binary is available: **`context.net.download`** fetches the official installer, then **`sh`** runs it (`--daemon` on Linux with systemd, `--no-daemon --yes` without systemd, plain `sh` on macOS)
+- **`scripts/install.lua`** is a no-op; bootstrap runs from `run.lua` where `context.net` exists
 - passes `--extra-experimental-features 'nix-command flakes'` on every Nix CLI call so `profile` and `search` work without host config changes
 - maps simple names like `hello` to `nixpkgs#hello`
 - keeps explicit installables unchanged, for example `nixpkgs#hello`, `github:owner/repo#pkg`, `.#pkg`, `/path/to/flake`

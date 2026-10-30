@@ -467,18 +467,10 @@ local function get_tmp_dir(context)
 end
 
 local function installer_download_url()
-    local override = trim(os.getenv("REQPACK_NIX_INSTALLER_URL") or "")
-    if override ~= "" then
-        return override
-    end
     return NIX_INSTALLER_URL
 end
 
 local function installer_destination_path(context)
-    local override = trim(os.getenv("REQPACK_NIX_INSTALLER_PATH") or "")
-    if override ~= "" then
-        return override
-    end
     return get_tmp_dir(context) .. "/nix-installer.sh"
 end
 
@@ -492,10 +484,18 @@ local function download_installer(context, destination)
     return false, "could not download Nix installer"
 end
 
-local function nix_installer_exec_command(installer_path, os_family)
+local function systemd_running(context)
+    local result = exec_run(context, "systemctl is-system-running >/dev/null 2>&1")
+    return result ~= nil and result.success
+end
+
+local function nix_installer_exec_command(installer_path, os_family, context)
     local quoted = shell_quote(installer_path)
     if os_family == "darwin" then
         return "sh " .. quoted
+    end
+    if os_family == "linux" and not systemd_running(context) then
+        return "sh " .. quoted .. " --no-daemon --yes"
     end
     return "sh " .. quoted .. " --daemon"
 end
@@ -580,14 +580,14 @@ local function detect_os_family(context)
     return "linux"
 end
 
-local POST_BOOTSTRAP_NIX_CANDIDATES = {
-    "$HOME/.nix-profile/bin/nix",
-    "/nix/var/nix/profiles/default/bin/nix",
-}
-
-local function activate_post_bootstrap_nix(context, os_family)
-    local candidates = POST_BOOTSTRAP_NIX_CANDIDATES
-    if os_family ~= "darwin" then
+local function activate_post_bootstrap_nix(context, os_family, single_user)
+    local candidates
+    if os_family == "darwin" or single_user then
+        candidates = {
+            "$HOME/.nix-profile/bin/nix",
+            "/nix/var/nix/profiles/default/bin/nix",
+        }
+    else
         candidates = {
             "/nix/var/nix/profiles/default/bin/nix",
             "$HOME/.nix-profile/bin/nix",
@@ -610,6 +610,7 @@ local function bootstrap_nix(context)
 
     local os_family = detect_os_family(context)
     local installer_path = installer_destination_path(context)
+    local single_user = os_family == "darwin" or (os_family == "linux" and not systemd_running(context))
     begin_step(context, "bootstrap nix")
 
     local downloaded, download_error = download_installer(context, installer_path)
@@ -617,7 +618,7 @@ local function bootstrap_nix(context)
         return nil, "nix bootstrap failed: " .. (download_error or "download failed")
     end
 
-    local result = exec_run(context, nix_installer_exec_command(installer_path, os_family))
+    local result = exec_run(context, nix_installer_exec_command(installer_path, os_family, context))
     if result == nil or result.success ~= true then
         local detail = trim(result and result.stderr or "")
         if detail == "" then
@@ -634,7 +635,7 @@ local function bootstrap_nix(context)
         return nil, "nix bootstrap failed" .. hint
     end
 
-    return activate_post_bootstrap_nix(context, os_family)
+    return activate_post_bootstrap_nix(context, os_family, single_user)
 end
 
 local function find_existing_nix_binary(context)

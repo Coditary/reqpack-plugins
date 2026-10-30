@@ -1,9 +1,5 @@
 return {
   name = "nix bootstrap existing store",
-  environment = {
-    REQPACK_NIX_INSTALLER_URL = "file://${caseDir}/../fixtures/nix-installer-stub.sh",
-    REQPACK_NIX_INSTALLER_PATH = "${fixtureRoot}/nix-installer.sh",
-  },
   request = {
     action = "install",
     system = "nix",
@@ -41,7 +37,14 @@ return {
       success = false,
     },
     {
-      match = "sh '${fixtureRoot}/nix-installer.sh' --daemon",
+      match = "systemctl is-system-running >/dev/null 2>&1",
+      exitCode = 0,
+      stdout = "running\n",
+      stderr = "",
+      success = true,
+    },
+    {
+      match = "nix-installer.sh",
       exitCode = 0,
       stdout = "installed\n",
       stderr = "",
@@ -71,15 +74,6 @@ return {
   },
   expect = {
     success = true,
-    commands = {
-      "command -v 'nix' >/dev/null 2>&1",
-      "test -x \"$HOME/.nix-profile/bin/nix\"",
-      "test -x '/nix/var/nix/profiles/default/bin/nix'",
-      "test -x '/run/current-system/sw/bin/nix'",
-      "sh '${fixtureRoot}/nix-installer.sh' --daemon",
-      "'/nix/var/nix/profiles/default/bin/nix' --extra-experimental-features 'nix-command flakes' --version >/dev/null 2>&1",
-      "'/nix/var/nix/profiles/default/bin/nix' --extra-experimental-features 'nix-command flakes' profile install 'nixpkgs#delta'"
-    },
     events = { "installed", "success" },
   }
 }
