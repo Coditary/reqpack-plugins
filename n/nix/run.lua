@@ -1212,7 +1212,11 @@ function plugin.getMissingPackages(packages)
 
     local binary = find_existing_nix_binary(nil)
     if binary == nil then
-        return packages
+        local missing = {}
+        for _, package in ipairs(packages) do
+            missing[#missing + 1] = package
+        end
+        return missing
     end
 
     local result = exec_run(nil, nix_invocation(binary) .. " profile list --json")
