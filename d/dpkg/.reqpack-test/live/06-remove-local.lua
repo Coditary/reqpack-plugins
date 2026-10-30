@@ -1,5 +1,5 @@
 return {
-  name = "live remove offline fixture deb",
+  name = "live remove offline fixture",
   request = {
     action = "remove",
     system = "dpkg",

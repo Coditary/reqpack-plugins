@@ -1,15 +1,13 @@
 return {
-  name = "live list installed offline fixture",
+  name = "live list verifies fixture v1",
   request = {
     action = "list",
     system = "dpkg",
-    packages = {
-      { name = "reqpack-live-fixture" },
-    },
   },
   expect = {
     success = true,
     minItems = 1,
     containsName = "reqpack-live-fixture",
+    versionEquals = "1.0",
   },
 }

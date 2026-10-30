@@ -1,5 +1,5 @@
 return {
-  name = "live install offline fixture deb",
+  name = "live install offline fixture v1",
   request = {
     action = "install",
     system = "dpkg",
