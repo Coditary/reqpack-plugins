@@ -456,6 +456,50 @@ local function exec_run(context, command)
     return reqpack.exec.run(command)
 end
 
+local function get_tmp_dir(context)
+    if context ~= nil and context.fs ~= nil and type(context.fs.get_tmp_dir) == "function" then
+        local dir = trim(context.fs.get_tmp_dir())
+        if dir ~= "" then
+            return dir
+        end
+    end
+    return trim(os.getenv("TMPDIR") or "/tmp")
+end
+
+local function installer_download_url()
+    local override = trim(os.getenv("REQPACK_NIX_INSTALLER_URL") or "")
+    if override ~= "" then
+        return override
+    end
+    return NIX_INSTALLER_URL
+end
+
+local function installer_destination_path(context)
+    local override = trim(os.getenv("REQPACK_NIX_INSTALLER_PATH") or "")
+    if override ~= "" then
+        return override
+    end
+    return get_tmp_dir(context) .. "/nix-installer.sh"
+end
+
+local function download_installer(context, destination)
+    if context == nil or context.net == nil or type(context.net.download) ~= "function" then
+        return false, "ReqPack download API unavailable"
+    end
+    if context.net.download(installer_download_url(), destination) then
+        return true, nil
+    end
+    return false, "could not download Nix installer"
+end
+
+local function nix_installer_exec_command(installer_path, os_family)
+    local quoted = shell_quote(installer_path)
+    if os_family == "darwin" then
+        return "sh " .. quoted
+    end
+    return "sh " .. quoted .. " --daemon"
+end
+
 local function command_exists(context, binary)
     local result = exec_run(context, "command -v " .. shell_quote(binary) .. " >/dev/null 2>&1")
     return result ~= nil and result.success == true
@@ -536,15 +580,6 @@ local function detect_os_family(context)
     return "linux"
 end
 
-local function nix_installer_command(context)
-    local curl = "curl --proto '=https' --tlsv1.2 -L " .. shell_quote(NIX_INSTALLER_URL)
-    local family = detect_os_family(context)
-    if family == "darwin" then
-        return curl .. " | sh"
-    end
-    return curl .. " | sh -s -- --daemon"
-end
-
 local POST_BOOTSTRAP_NIX_CANDIDATES = {
     "$HOME/.nix-profile/bin/nix",
     "/nix/var/nix/profiles/default/bin/nix",
@@ -569,13 +604,20 @@ local function activate_post_bootstrap_nix(context, os_family)
 end
 
 local function bootstrap_nix(context)
-    if not command_exists(context, "curl") then
-        return nil, "nix bootstrap requires curl"
+    if context == nil or context.net == nil or type(context.net.download) ~= "function" then
+        return nil, "nix bootstrap requires ReqPack context.net.download"
     end
 
     local os_family = detect_os_family(context)
+    local installer_path = installer_destination_path(context)
     begin_step(context, "bootstrap nix")
-    local result = exec_run(context, nix_installer_command(context))
+
+    local downloaded, download_error = download_installer(context, installer_path)
+    if not downloaded then
+        return nil, "nix bootstrap failed: " .. (download_error or "download failed")
+    end
+
+    local result = exec_run(context, nix_installer_exec_command(installer_path, os_family))
     if result == nil or result.success ~= true then
         local detail = trim(result and result.stderr or "")
         if detail == "" then
@@ -1167,7 +1209,7 @@ function plugin.getMissingPackages(packages)
         return {}
     end
 
-    local binary = select(1, ensure_nix(nil))
+    local binary = find_existing_nix_binary(nil)
     if binary == nil then
         return packages
     end

@@ -1,5 +1,9 @@
 return {
   name = "nix bootstrap existing store",
+  environment = {
+    REQPACK_NIX_INSTALLER_URL = "file://${caseDir}/../fixtures/nix-installer-stub.sh",
+    REQPACK_NIX_INSTALLER_PATH = "${fixtureRoot}/nix-installer.sh",
+  },
   request = {
     action = "install",
     system = "nix",
@@ -37,14 +41,7 @@ return {
       success = false,
     },
     {
-      match = "command -v 'curl' >/dev/null 2>&1",
-      exitCode = 0,
-      stdout = "",
-      stderr = "",
-      success = true,
-    },
-    {
-      match = "curl --proto '=https' --tlsv1.2 -L 'https://nixos.org/nix/install' | sh -s -- --daemon",
+      match = "sh '${fixtureRoot}/nix-installer.sh' --daemon",
       exitCode = 0,
       stdout = "installed\n",
       stderr = "",
@@ -79,8 +76,7 @@ return {
       "test -x \"$HOME/.nix-profile/bin/nix\"",
       "test -x '/nix/var/nix/profiles/default/bin/nix'",
       "test -x '/run/current-system/sw/bin/nix'",
-      "command -v 'curl' >/dev/null 2>&1",
-      "curl --proto '=https' --tlsv1.2 -L 'https://nixos.org/nix/install' | sh -s -- --daemon",
+      "sh '${fixtureRoot}/nix-installer.sh' --daemon",
       "'/nix/var/nix/profiles/default/bin/nix' --extra-experimental-features 'nix-command flakes' --version >/dev/null 2>&1",
       "'/nix/var/nix/profiles/default/bin/nix' --extra-experimental-features 'nix-command flakes' profile install 'nixpkgs#delta'"
     },
