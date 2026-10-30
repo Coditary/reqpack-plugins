@@ -14,6 +14,13 @@ return {
       success = true,
     },
     {
+      match = "--version >/dev/null",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
       match = "nix --extra-experimental-features 'nix-command flakes' search --json 'nixpkgs' 'delta'",
       exitCode = 0,
       stdout = "{\"legacyPackages.x86_64-linux.delta\":{\"pname\":\"delta\",\"version\":\"1.0.0\",\"description\":\"Delta package\"}}\n",
@@ -25,6 +32,7 @@ return {
     success = true,
     commands = {
       "command -v 'nix' >/dev/null 2>&1",
+      "nix --extra-experimental-features 'nix-command flakes' --version >/dev/null 2>&1",
       "nix --extra-experimental-features 'nix-command flakes' search --json 'nixpkgs' 'delta'"
     },
     events = { "searched" },

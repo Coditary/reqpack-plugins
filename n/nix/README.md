@@ -6,7 +6,8 @@ Plugin wraps modern `nix profile` workflow for install, remove, update, and list
 
 ## Behavior
 
-- bootstraps a single-user Nix install with the official installer when no `nix` binary is available
+- bootstraps a single-user Nix install with the official installer when no working `nix` binary is available (`plugin.init`, `scripts/install.lua`, and before install/search/profile commands)
+- verifies candidates with `nix --version` (a broken `/usr/bin/nix` or root-owned `/nix/store` without `nix-daemon` is treated as missing and surfaces an error instead of empty search results)
 - passes `--extra-experimental-features 'nix-command flakes'` on every Nix CLI call so `profile` and `search` work without host config changes
 - maps simple names like `hello` to `nixpkgs#hello`
 - keeps explicit installables unchanged, for example `nixpkgs#hello`, `github:owner/repo#pkg`, `.#pkg`, `/path/to/flake`

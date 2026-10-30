@@ -16,6 +16,13 @@ return {
       success = true,
     },
     {
+      match = "--version >/dev/null",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
       match = "nix --extra-experimental-features 'nix-command flakes' profile install 'nixpkgs#delta'",
       exitCode = 0,
       stdout = "installed\n",
@@ -27,6 +34,7 @@ return {
     success = true,
     commands = {
       "command -v 'nix' >/dev/null 2>&1",
+      "nix --extra-experimental-features 'nix-command flakes' --version >/dev/null 2>&1",
       "nix --extra-experimental-features 'nix-command flakes' profile install 'nixpkgs#delta'"
     },
     events = { "installed", "success" },

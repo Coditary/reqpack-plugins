@@ -471,32 +471,6 @@ local function executable_exists(context, path)
     return result ~= nil and result.success == true
 end
 
-local function find_existing_nix_binary(context)
-    if active_nix_binary ~= nil and active_nix_binary ~= "$HOME/.nix-profile/bin/nix" then
-        return active_nix_binary
-    end
-
-    if command_exists(context, REQUIRED_BINARY) then
-        active_nix_binary = REQUIRED_BINARY
-        return active_nix_binary
-    end
-
-    local candidates = {
-        "$HOME/.nix-profile/bin/nix",
-        "/nix/var/nix/profiles/default/bin/nix",
-        "/run/current-system/sw/bin/nix",
-    }
-
-    for _, candidate in ipairs(candidates) do
-        if executable_exists(context, candidate) then
-            active_nix_binary = candidate
-            return active_nix_binary
-        end
-    end
-
-    return nil
-end
-
 local function quote_command_path(path)
     local value = trim(path)
     if value == REQUIRED_BINARY then
@@ -514,19 +488,86 @@ local function nix_invocation(binary)
         .. shell_quote(NIX_EXPERIMENTAL_FEATURES)
 end
 
+local function nix_binary_works(context, binary)
+    if binary == nil or trim(binary) == "" then
+        return false
+    end
+    local command = nix_invocation(binary) .. " --version >/dev/null 2>&1"
+    local result = exec_run(context, command)
+    return result ~= nil and result.success == true
+end
+
+local function nix_store_blocks_single_user_bootstrap(context)
+    local store = exec_run(context, "test -d /nix/store")
+    if store == nil or not store.success then
+        return false
+    end
+    local writable = exec_run(context, "test -w /nix/store")
+    return writable == nil or not writable.success
+end
+
+local function find_existing_nix_binary(context)
+    if active_nix_binary ~= nil then
+        return active_nix_binary
+    end
+
+    local candidates = { REQUIRED_BINARY }
+    for _, candidate in ipairs({
+        "$HOME/.nix-profile/bin/nix",
+        "/nix/var/nix/profiles/default/bin/nix",
+        "/run/current-system/sw/bin/nix",
+    }) do
+        candidates[#candidates + 1] = candidate
+    end
+
+    for _, candidate in ipairs(candidates) do
+        if candidate == REQUIRED_BINARY then
+            if not command_exists(context, REQUIRED_BINARY) then
+                goto continue
+            end
+        elseif not executable_exists(context, candidate) then
+            goto continue
+        end
+        if nix_binary_works(context, candidate) then
+            active_nix_binary = candidate
+            return active_nix_binary
+        end
+        ::continue::
+    end
+
+    return nil
+end
+
 local function bootstrap_nix(context)
     if not command_exists(context, "curl") then
         return nil, "nix bootstrap requires curl"
+    end
+
+    if nix_store_blocks_single_user_bootstrap(context) then
+        return nil,
+            "Nix store at /nix exists but is not writable for this user; enable nix-daemon "
+                .. "(sudo systemctl enable --now nix-daemon, group nix-users) or remove /nix for single-user bootstrap"
     end
 
     begin_step(context, "bootstrap nix")
     local command = "curl -L " .. shell_quote(NIX_INSTALLER_URL) .. " | sh -s -- --no-daemon --yes"
     local result = exec_run(context, command)
     if result == nil or result.success ~= true then
+        local detail = trim(result and result.stderr or "")
+        if detail == "" then
+            detail = trim(result and result.stdout or "")
+        end
+        if detail ~= "" then
+            return nil, "nix bootstrap failed: " .. detail
+        end
         return nil, "nix bootstrap failed"
     end
 
     active_nix_binary = "$HOME/.nix-profile/bin/nix"
+    if not nix_binary_works(context, active_nix_binary) then
+        active_nix_binary = nil
+        return nil, "nix bootstrap finished but nix --version failed"
+    end
     return active_nix_binary, nil
 end
 
@@ -1066,12 +1107,11 @@ end
 
 function plugin.getMissingPackages(packages)
     reset_nix_cache()
-
     if packages == nil or #packages == 0 then
         return {}
     end
 
-    local binary = find_existing_nix_binary(nil)
+    local binary = select(1, ensure_nix(nil))
     if binary == nil then
         return packages
     end
@@ -1108,10 +1148,27 @@ function plugin.getMissingPackages(packages)
     return missing
 end
 
+local function log_plugin_error(context, message)
+    if context == nil or context.log == nil then
+        return
+    end
+    if type(context.log.error) == "function" then
+        context.log.error(message)
+    elseif type(context.log.warn) == "function" then
+        context.log.warn(message)
+    end
+end
+
 function plugin.install(context, packages)
     reset_nix_cache()
+    local nix, command_error = nix_command(context)
+    if nix == nil then
+        tx_failed(context, command_error or "nix unavailable")
+        return false
+    end
 
     if packages == nil or #packages == 0 then
+        tx_success(context)
         return true
     end
 
@@ -1125,12 +1182,6 @@ function plugin.install(context, packages)
 
     if #installables == 0 then
         return true
-    end
-
-    local nix, command_error = nix_command(context)
-    if nix == nil then
-        tx_failed(context, command_error)
-        return false
     end
 
     begin_step(context, "install nix packages")
@@ -1148,7 +1199,6 @@ end
 
 function plugin.installLocal(context, path)
     reset_nix_cache()
-
     local installable = trim(path)
     if installable == "" then
         tx_failed(context, "nix local install path missing")
@@ -1176,7 +1226,6 @@ end
 
 function plugin.remove(context, packages)
     reset_nix_cache()
-
     if packages == nil or #packages == 0 then
         return true
     end
@@ -1223,7 +1272,6 @@ end
 
 function plugin.update(context, packages)
     reset_nix_cache()
-
     if packages == nil or #packages == 0 then
         return true
     end
@@ -1270,7 +1318,6 @@ end
 
 function plugin.list(context)
     reset_nix_cache()
-
     local entries, error_message = get_profile_entries(context)
     if entries == nil then
         emit_event(context, "listed", {})
@@ -1292,7 +1339,6 @@ end
 
 function plugin.outdated(context)
     reset_nix_cache()
-
     local entries, error_message = get_profile_entries(context)
     if entries == nil then
         emit_event(context, "outdated", {})
@@ -1317,7 +1363,6 @@ end
 
 function plugin.search(context, prompt)
     reset_nix_cache()
-
     local source_ref, search_term = extract_search_term(prompt)
     if trim(search_term) == "" then
         local empty = {}
@@ -1327,10 +1372,8 @@ function plugin.search(context, prompt)
 
     local items, error_message = search_installable(context, source_ref, search_term)
     if items == nil then
+        log_plugin_error(context, error_message or "nix search failed")
         emit_event(context, "searched", {})
-        if context ~= nil and context.log ~= nil and type(context.log.warn) == "function" then
-            context.log.warn(error_message)
-        end
         return {}
     end
 
@@ -1340,7 +1383,6 @@ end
 
 function plugin.info(context, name)
     reset_nix_cache()
-
     local item = exact_or_first_search_result(context, name)
     if item == nil then
         local empty = {}
@@ -1353,8 +1395,6 @@ function plugin.info(context, name)
 end
 
 function plugin.resolvePackage(context, package)
-    reset_nix_cache()
-
     if package == nil or trim(package.name) == "" then
         return nil
     end
@@ -1413,7 +1453,7 @@ function plugin.getSecurityMetadata()
 end
 
 function plugin.init()
-    active_nix_binary = nil
+    reset_nix_cache()
     return true
 end
 
