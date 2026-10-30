@@ -506,8 +506,43 @@ local function nix_store_blocks_single_user_bootstrap(context)
     return writable == nil or not writable.success
 end
 
-local function nix_installer_command(installer_args)
-    return "curl -L " .. shell_quote(NIX_INSTALLER_URL) .. " | sh -s -- " .. installer_args
+local function detect_os_family(context)
+    if context ~= nil and context.host ~= nil and type(context.host.platform) == "table" then
+        local family = trim(context.host.platform.osFamily):lower()
+        if family == "macos" then
+            family = "darwin"
+        end
+        if family ~= "" then
+            return family
+        end
+    end
+
+    local uname = exec_run(context, "uname -s 2>/dev/null")
+    if uname ~= nil and uname.success then
+        local value = trim(uname.stdout):lower()
+        if value == "darwin" then
+            return "darwin"
+        end
+        if value == "linux" then
+            return "linux"
+        end
+    end
+
+    local windows = exec_run(context, "cmd /c ver >/dev/null 2>&1")
+    if windows ~= nil and windows.success then
+        return "windows"
+    end
+
+    return "linux"
+end
+
+local function nix_installer_command(context)
+    local curl = "curl --proto '=https' --tlsv1.2 -L " .. shell_quote(NIX_INSTALLER_URL)
+    local family = detect_os_family(context)
+    if family == "darwin" then
+        return curl .. " | sh"
+    end
+    return curl .. " | sh -s -- --daemon"
 end
 
 local POST_BOOTSTRAP_NIX_CANDIDATES = {
@@ -515,9 +550,9 @@ local POST_BOOTSTRAP_NIX_CANDIDATES = {
     "/nix/var/nix/profiles/default/bin/nix",
 }
 
-local function activate_post_bootstrap_nix(context, prefer_multi_user_profile)
+local function activate_post_bootstrap_nix(context, os_family)
     local candidates = POST_BOOTSTRAP_NIX_CANDIDATES
-    if prefer_multi_user_profile then
+    if os_family ~= "darwin" then
         candidates = {
             "/nix/var/nix/profiles/default/bin/nix",
             "$HOME/.nix-profile/bin/nix",
@@ -538,31 +573,26 @@ local function bootstrap_nix(context)
         return nil, "nix bootstrap requires curl"
     end
 
-    local use_multi_user = nix_store_blocks_single_user_bootstrap(context)
-    local installer_args = use_multi_user and "--yes" or "--no-daemon --yes"
-    begin_step(context, use_multi_user and "bootstrap nix (multi-user)" or "bootstrap nix")
-
-    local result = exec_run(context, nix_installer_command(installer_args))
+    local os_family = detect_os_family(context)
+    begin_step(context, "bootstrap nix")
+    local result = exec_run(context, nix_installer_command(context))
     if result == nil or result.success ~= true then
         local detail = trim(result and result.stderr or "")
         if detail == "" then
             detail = trim(result and result.stdout or "")
         end
-        if use_multi_user then
-            local hint =
+        local hint = ""
+        if os_family == "linux" and nix_store_blocks_single_user_bootstrap(context) then
+            hint =
                 " (existing /nix/store may need nix-daemon: sudo dnf install nix && sudo systemctl enable --now nix-daemon; usermod -aG nix-users $USER)"
-            if detail ~= "" then
-                return nil, "nix bootstrap failed: " .. detail .. hint
-            end
-            return nil, "nix bootstrap failed" .. hint
         end
         if detail ~= "" then
-            return nil, "nix bootstrap failed: " .. detail
+            return nil, "nix bootstrap failed: " .. detail .. hint
         end
-        return nil, "nix bootstrap failed"
+        return nil, "nix bootstrap failed" .. hint
     end
 
-    return activate_post_bootstrap_nix(context, use_multi_user)
+    return activate_post_bootstrap_nix(context, os_family)
 end
 
 local function find_existing_nix_binary(context)

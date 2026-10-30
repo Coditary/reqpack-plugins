@@ -44,21 +44,14 @@ return {
       success = true,
     },
     {
-      match = "test -d /nix/store",
-      exitCode = 1,
-      stdout = "",
-      stderr = "",
-      success = false,
-    },
-    {
-      match = "curl -L 'https://nixos.org/nix/install' | sh -s -- --no-daemon --yes",
+      match = "curl --proto '=https' --tlsv1.2 -L 'https://nixos.org/nix/install' | sh -s -- --daemon",
       exitCode = 0,
       stdout = "installed\n",
       stderr = "",
       success = true,
     },
     {
-      match = "test -x \"$HOME/.nix-profile/bin/nix\"",
+      match = "test -x '/nix/var/nix/profiles/default/bin/nix'",
       exitCode = 0,
       stdout = "",
       stderr = "",
@@ -72,7 +65,7 @@ return {
       success = true,
     },
     {
-      match = "\"$HOME/.nix-profile/bin/nix\" --extra-experimental-features 'nix-command flakes' profile install 'nixpkgs#delta'",
+      match = "'/nix/var/nix/profiles/default/bin/nix' --extra-experimental-features 'nix-command flakes' profile install 'nixpkgs#delta'",
       exitCode = 0,
       stdout = "installed\n",
       stderr = "",
@@ -87,10 +80,9 @@ return {
       "test -x '/nix/var/nix/profiles/default/bin/nix'",
       "test -x '/run/current-system/sw/bin/nix'",
       "command -v 'curl' >/dev/null 2>&1",
-      "test -d /nix/store",
-      "curl -L 'https://nixos.org/nix/install' | sh -s -- --no-daemon --yes",
-      "\"$HOME/.nix-profile/bin/nix\" --extra-experimental-features 'nix-command flakes' --version >/dev/null 2>&1",
-      "\"$HOME/.nix-profile/bin/nix\" --extra-experimental-features 'nix-command flakes' profile install 'nixpkgs#delta'"
+      "curl --proto '=https' --tlsv1.2 -L 'https://nixos.org/nix/install' | sh -s -- --daemon",
+      "'/nix/var/nix/profiles/default/bin/nix' --extra-experimental-features 'nix-command flakes' --version >/dev/null 2>&1",
+      "'/nix/var/nix/profiles/default/bin/nix' --extra-experimental-features 'nix-command flakes' profile install 'nixpkgs#delta'"
     },
     events = { "installed", "success" },
   }
