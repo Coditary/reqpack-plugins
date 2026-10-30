@@ -10,6 +10,7 @@ RQ_CONFIG ?=
 help:
 	@echo "Targets:"
 	@echo "  make import              Copy from LEGACY_ROOT (default: ~/Dev/Coditary/plugins/reqpack)"
+	@echo "  make migrate-registry REGISTRY=/path/to/rqp-registry  Update registry JSON sources"
 	@echo "  make validate            Check all plugins (required files + metadata)"
 	@echo "  make validate-strict     validate + fail on metadata.name != folder name"
 	@echo "  make list                List all plugin ids"
@@ -23,6 +24,11 @@ help:
 import:
 	@LEGACY_ROOT="$(LEGACY_ROOT)" bash "$(SCRIPTS)/import-legacy.sh"
 	@$(MAKE) validate
+
+REGISTRY ?=
+migrate-registry:
+	@test -n "$(REGISTRY)" || (echo "usage: make migrate-registry REGISTRY=/path/to/rqp-registry" >&2; exit 1)
+	@python3 "$(SCRIPTS)/migrate-registry-sources.py" "$(REGISTRY)"
 
 validate:
 	@python3 "$(SCRIPTS)/validate-plugins.py"
