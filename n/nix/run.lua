@@ -7,6 +7,9 @@ local NIXPKGS_REF = "nixpkgs"
 local NIX_INSTALLER_URL = "https://nixos.org/nix/install"
 local NIX_EXPERIMENTAL_FEATURES = "nix-command flakes"
 local active_nix_binary = nil
+local bootstrap_single_user_home = nil
+local NIX_BUILD_USER_COUNT = 32
+local CONTAINER_INSTALL_USER = "reqpack-nix"
 
 local function trim(value)
     return (tostring(value or ""):gsub("^%s+", ""):gsub("%s+$", ""))
@@ -456,6 +459,160 @@ local function exec_run(context, command)
     return reqpack.exec.run(command)
 end
 
+local function exec_success(context, command)
+    local result = exec_run(context, command)
+    return result ~= nil and result.success == true
+end
+
+local function current_euid(context)
+    local result = exec_run(context, "id -u")
+    if result == nil or not result.success then
+        return nil
+    end
+    return tonumber(trim(result.stdout))
+end
+
+local function parse_passwd_line(line)
+    local fields = {}
+    for field in tostring(line or ""):gmatch("[^:]+") do
+        fields[#fields + 1] = field
+    end
+    if #fields >= 6 then
+        return fields[1], fields[6]
+    end
+    return nil, nil
+end
+
+local function passwd_entry_for_uid(context, uid)
+    local result = exec_run(context, "getent passwd " .. tostring(uid))
+    if result == nil or not result.success then
+        return nil, nil
+    end
+    return parse_passwd_line(trim(result.stdout))
+end
+
+local function group_exists(context, group_name)
+    return exec_success(context, "getent group " .. shell_quote(group_name) .. " >/dev/null 2>&1")
+end
+
+local function user_exists(context, username)
+    return exec_success(context, "id -u " .. shell_quote(username) .. " >/dev/null 2>&1")
+end
+
+local function ensure_nix_build_users(context)
+    if group_exists(context, "nixbld") then
+        return true, nil
+    end
+
+    local euid = current_euid(context)
+    if euid ~= 0 then
+        return false,
+            "Linux Nix requires group 'nixbld'. In containers, run once as root or use an image that creates nixbld users."
+    end
+
+    if not exec_success(context, "groupadd -r nixbld 2>/dev/null || groupadd nixbld") then
+        return false, "could not create group nixbld (install shadow-utils / useradd tooling)"
+    end
+
+    for index = 1, NIX_BUILD_USER_COUNT do
+        local username = "nixbld" .. tostring(index)
+        if not user_exists(context, username) then
+            exec_run(
+                context,
+                "useradd -r -g nixbld -G nixbld -d /var/empty -s "
+                    .. shell_quote("/sbin/nologin")
+                    .. " "
+                    .. shell_quote(username)
+                    .. " 2>/dev/null || useradd -r -g nixbld -G nixbld -d /var/empty -s /bin/false "
+                    .. shell_quote(username)
+            )
+        end
+    end
+
+    return true, nil
+end
+
+local function resolve_linux_single_user_identity(context)
+    local preferred_uid = 1000
+    local username, home = passwd_entry_for_uid(context, preferred_uid)
+    if username ~= nil and home ~= nil and trim(home) ~= "" then
+        return username, home
+    end
+
+    if not user_exists(context, CONTAINER_INSTALL_USER) then
+        exec_run(
+            context,
+            "useradd -m -u "
+                .. tostring(preferred_uid)
+                .. " -s /bin/bash "
+                .. shell_quote(CONTAINER_INSTALL_USER)
+                .. " 2>/dev/null || useradd -m -s /bin/bash "
+                .. shell_quote(CONTAINER_INSTALL_USER)
+        )
+    end
+
+    username, home = passwd_entry_for_uid(context, preferred_uid)
+    if username == nil then
+        local result = exec_run(context, "getent passwd " .. shell_quote(CONTAINER_INSTALL_USER))
+        if result ~= nil and result.success then
+            username, home = parse_passwd_line(trim(result.stdout))
+        end
+    end
+
+    if username == nil or home == nil or trim(home) == "" then
+        return nil, nil
+    end
+    return username, home
+end
+
+local function ensure_nix_directory_for_user(context, username)
+    if not exec_success(context, "test -d /nix") then
+        exec_run(context, "mkdir -m 0755 /nix")
+    end
+    exec_run(context, "chown " .. shell_quote(username) .. " /nix 2>/dev/null || chown -R " .. shell_quote(username) .. " /nix")
+end
+
+local function run_command_as_user(context, username, home, command)
+    local home_value = trim(home)
+    if exec_success(context, "command -v runuser >/dev/null 2>&1") then
+        return exec_run(
+            context,
+            "runuser -u "
+                .. shell_quote(username)
+                .. " -- env HOME="
+                .. shell_quote(home_value)
+                .. " "
+                .. command
+        )
+    end
+    return exec_run(
+        context,
+        "su -s /bin/sh "
+            .. shell_quote(username)
+            .. " -c "
+            .. shell_quote("HOME=" .. home_value .. " " .. command)
+    )
+end
+
+local function run_nix_installer(context, installer_path, os_family, single_user, install_as_user, install_home)
+    local quoted = shell_quote(installer_path)
+    local installer_command
+    if os_family == "darwin" then
+        installer_command = "sh " .. quoted
+    elseif os_family == "linux" and single_user then
+        installer_command = "sh " .. quoted .. " --no-daemon --yes"
+    elseif os_family == "linux" then
+        installer_command = "sh " .. quoted .. " --daemon"
+    else
+        installer_command = "sh " .. quoted
+    end
+
+    if install_as_user ~= nil and trim(install_as_user) ~= "" and install_home ~= nil and trim(install_home) ~= "" then
+        return run_command_as_user(context, install_as_user, install_home, installer_command)
+    end
+    return exec_run(context, installer_command)
+end
+
 local function get_tmp_dir(context)
     if context ~= nil and context.fs ~= nil and type(context.fs.get_tmp_dir) == "function" then
         local dir = trim(context.fs.get_tmp_dir())
@@ -581,17 +738,16 @@ local function detect_os_family(context)
 end
 
 local function activate_post_bootstrap_nix(context, os_family, single_user)
-    local candidates
+    local candidates = {}
+    if bootstrap_single_user_home ~= nil and trim(bootstrap_single_user_home) ~= "" then
+        candidates[#candidates + 1] = bootstrap_single_user_home .. "/.nix-profile/bin/nix"
+    end
     if os_family == "darwin" or single_user then
-        candidates = {
-            "$HOME/.nix-profile/bin/nix",
-            "/nix/var/nix/profiles/default/bin/nix",
-        }
+        candidates[#candidates + 1] = "$HOME/.nix-profile/bin/nix"
+        candidates[#candidates + 1] = "/nix/var/nix/profiles/default/bin/nix"
     else
-        candidates = {
-            "/nix/var/nix/profiles/default/bin/nix",
-            "$HOME/.nix-profile/bin/nix",
-        }
+        candidates[#candidates + 1] = "/nix/var/nix/profiles/default/bin/nix"
+        candidates[#candidates + 1] = "$HOME/.nix-profile/bin/nix"
     end
     for _, candidate in ipairs(candidates) do
         if nix_binary_works(context, candidate) then
@@ -613,12 +769,40 @@ local function bootstrap_nix(context)
     local single_user = os_family == "darwin" or (os_family == "linux" and not systemd_running(context))
     begin_step(context, "bootstrap nix")
 
+    bootstrap_single_user_home = nil
+    local install_as_user, install_home = nil, nil
+
+    if os_family == "linux" then
+        local build_users_ok, build_users_error = ensure_nix_build_users(context)
+        if not build_users_ok then
+            return nil, "nix bootstrap failed: " .. (build_users_error or "missing nixbld group")
+        end
+        if single_user and current_euid(context) == 0 then
+            install_as_user, install_home = resolve_linux_single_user_identity(context)
+            if install_as_user == nil or install_home == nil then
+                return nil,
+                    "nix bootstrap failed: could not resolve a non-root user for container install (need UID 1000 or user "
+                        .. CONTAINER_INSTALL_USER
+                        .. ")"
+            end
+            ensure_nix_directory_for_user(context, install_as_user)
+            bootstrap_single_user_home = install_home
+        end
+    end
+
     local downloaded, download_error = download_installer(context, installer_path)
     if not downloaded then
         return nil, "nix bootstrap failed: " .. (download_error or "download failed")
     end
 
-    local result = exec_run(context, nix_installer_exec_command(installer_path, os_family, context))
+    local result = run_nix_installer(
+        context,
+        installer_path,
+        os_family,
+        single_user,
+        install_as_user,
+        install_home
+    )
     if result == nil or result.success ~= true then
         local detail = trim(result and result.stderr or "")
         if detail == "" then
@@ -648,6 +832,7 @@ local function find_existing_nix_binary(context)
         "$HOME/.nix-profile/bin/nix",
         "/nix/var/nix/profiles/default/bin/nix",
         "/run/current-system/sw/bin/nix",
+        "/home/" .. CONTAINER_INSTALL_USER .. "/.nix-profile/bin/nix",
     }) do
         candidates[#candidates + 1] = candidate
     end
@@ -681,6 +866,7 @@ end
 
 local function reset_nix_cache()
     active_nix_binary = nil
+    bootstrap_single_user_home = nil
 end
 
 local function nix_command(context)

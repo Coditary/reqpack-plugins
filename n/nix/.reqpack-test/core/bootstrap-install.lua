@@ -37,6 +37,13 @@ return {
       success = false,
     },
     {
+      match = "getent group 'nixbld' >/dev/null 2>&1",
+      exitCode = 0,
+      stdout = "",
+      stderr = "",
+      success = true,
+    },
+    {
       match = "systemctl is-system-running >/dev/null 2>&1",
       exitCode = 1,
       stdout = "",
